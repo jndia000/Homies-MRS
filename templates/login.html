@@ -1,0 +1,163 @@
+<script>
+    var token = localStorage.getItem('token');
+    if (token != null) {
+        window.location.replace('http://127.0.0.1:8000/main')
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MRS | Log in</title>
+    {%block css%}
+    <!-- Google Font: Source Sans Pro
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback')}}"> -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/fontawesome-free/css/all.min.css')}}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{url_for('static', path='/dist/css/adminlte.min.css')}}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+    {%endblock%}
+</head>
+
+<body class="hold-transition login-page bg-white">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="../../index2.html">HoMIES</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card shadow-none">
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">Log in to start your session</p>
+
+
+
+                {%include 'loginform.html'%}
+
+
+
+                <!-- <div class="social-auth-links text-center mb-3">
+        <p>- OR -</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+        </a>
+      </div> -->
+                <!-- /.social-auth-links -->
+
+                <!-- <p class="mb-1">
+        <a href="forgot-password.html">I forgot my password</a>
+      </p>
+      <p class="mb-0">
+        <a href="register.html" class="text-center">Register a new membership</a>
+      </p> -->
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+    {%block plugins_css%}
+    <!-- jQuery -->
+    <script src="{{url_for('static', path='/plugins/jquery/jquery.min.js')}}"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="{{url_for('static', path='/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{url_for('static', path='/dist/js/adminlte.min.js')}}"></script>
+    <!-- Toastr -->
+    <script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+    <!-- jquery-validation -->
+    <script src="{{url_for('static', path='/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
+    <script src="{{url_for('static', path='/plugins/jquery-validation/additional-methods.min.js')}}"></script>
+    <!-- Validations -->
+    <script src="{{url_for('static', path='/validations.js')}}"></script>
+    {%endblock%}
+
+
+    <script>
+        // LOGIN
+
+        $('#loginbtn').click(function (e) {
+            // alert('hi');  
+            var valid = this.form.checkValidity();
+
+            if (valid) {
+                var username = $('#email').val();
+                var password = $('#password').val();
+            }
+            var data = { username, password };
+            console.log(data);
+            e.preventDefault();
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/verify',
+                type: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'Application/json' },
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data),
+                success: result => {
+                    // console.log(result)
+                    // toastr.success('You are logged in')
+                    toastr.options = {
+                    positionClass: "toast-top-center",
+                    };
+                    if (result) {
+                        if (result === 404) {
+                            toastr.error('Invalid Credentails')
+                        }
+                        else if (result === 4041) {
+                            toastr.error('Invalid Password')
+                        }
+                        else if (result === 4040) {
+                            toastr.error('User is inactive')
+                        }
+                        else if (result.user.user_typesFK.title == "Patient") {
+                            toastr.error('Invalid User')
+                        }
+                        else {
+                            console.log(result);
+                            // Store important data to local storage for session
+                            localStorage.setItem('token', result.access_token);
+                            localStorage.setItem('user_ID', result.user.user_id);
+                            localStorage.setItem('user_type', result.user.user_typesFK.title);
+                            localStorage.setItem('user_first_name', result.user.users_profilesFK[0].first_name);
+                            localStorage.setItem('user_middle_name', result.user.users_profilesFK[0].middle_name);
+                            localStorage.setItem('user_last_name', result.user.users_profilesFK[0].last_name);
+                            if(result.user.user_typesFK.title == 'Doctor'){
+                                localStorage.setItem('user_department', result.user.users_profilesFK[0].docProfileFK.department);
+                                localStorage.setItem('doc_id', result.user.users_profilesFK[0].docProfileFK.doc_id);
+                            }
+                            // Set the session data
+                            const sessionData =
+                                'token=' + result.access_token +
+                                '&user_id=' + result.access_token;
+                            // '&user_type=' + data.user_type;
+                                toastr.success('You are logged in')
+                            // Redirect to oAuth
+                            setTimeout(' window.location.href = "http://127.0.0.1:8000/main"', 1000);
+                            // window.location.replace(`http://127.0.0.1:8000/dashboard`);
+                        }
+
+                        //   }
+                    }
+
+
+                },
+                error: () => console.error('GET ajax failed')
+            });
+
+        });
+    </script>
+</body>
+
+</html>

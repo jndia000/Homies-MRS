@@ -1,0 +1,5 @@
+-create database 'medicalrecord' 
+-create virtual environment 'python -m venv venv' 
+-activate venv 'venv\scripts\activate'
+-install dependencies 'pip install -r requirements.txt'
+-run server 'uvicorn main:app --reload'

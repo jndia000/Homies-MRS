@@ -1,0 +1,323 @@
+
+<!-- Add Medication Modal -->
+<div class="modal fade" id="medication_modal">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-file-alt mr-2 text-secondary"></i>Add Medication</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createProblem()"> -->
+            <form id="addMedicationForm">
+                <div class="modal-body">
+                    <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="drug_name">Drug Name <span class="text-danger">*</span> </label>
+                            <input type="text" name="drug_name" class="form-control" id="md_drug_name" placeholder="Enter Drug Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="dosage">Dosage<span class="text-danger">*</span> </label>
+                            <input  type="text"  name="dosage" class="form-control" id="md_dosage" placeholder="Enter Dosage" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="route">Route <span class="text-danger">*</span> </label>
+                            <select name="route" id="md_route" class="form-control select2">
+                                <option label="Per Oris" value="Per Oris">Per Oris</option>
+                                <option label="Per Rectum" value="Per Rectum">Per Rectum</option>
+                                <option label="To Skin" value="To Skin">To Skin</option>
+                                <option label="To Affected Area" value="To Affected Area">To Affected Area</option>
+                                <option label="Sublingual" value="Sublingual">Sublingual</option>
+                                <option label="IV" value="IV">IV</option>
+                                <option label="Per Nostril" value="Per Nostril">Per Nostril</option>
+                                <option label="Both Ears" value="Both Ears">Both Ears</option>
+                                <option label="Left Ear" value="Left Ear">Left Ear</option>
+                                <option label="Right Ear" value="Right Ear">Right Ear</option>
+                                <option label="Inhale" value="Inhale">Inhale</option>
+                                <option label="Intradermal" value="Intradermal">Intradermal</option>
+                                <option label="Intramuscular" value="Intramuscular">Intramuscular</option>
+                                <option label="Other/Miscellaneous" value="Other/Miscellaneous">Other/Miscellaneous</option>
+                                <option label="Transdermal" value="Transdermal">Transdermal</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="frequency">Frequency<span class="text-danger">*</span> </label>
+                            <input  type="text"  name="frequency" class="form-control" id="md_frequency" placeholder="Enter Frequency" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="quantity">Quantity<span class="text-danger">*</span> </label>
+                            <input  type="text"  name="quantity" class="form-control" id="md_quantity" placeholder="Enter Quantity" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="medications_status">Medication Status <span class="text-danger">*</span> </label>
+                            <select name="medications_status" id="md_medication_status" class="form-control select2">
+                                <option label="No Change" value="No Change">No Change</option>
+                                <option label="Start" value="Start">Start</option>
+                                <option label="Stop" value="Stop">Stop</option>
+                                <option label="Increase" value="Increase">Increase</option>
+                                <option label="Decrease" value="Decrease">Decrease</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="refill">Refill</label>
+                            <input  type="text"  name="refill" class="form-control" id="md_refill" placeholder="Enter Refill" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="instructions">Instructions<span class="text-danger">*</span> </label>
+                            <input  type="text"  name="instructions" class="form-control" id="md_instructions" placeholder="Enter Instructions" >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="start_date">Start Date<span class="text-danger">*</span> </label>
+                            <input  type="date"  name="start_date" class="form-control" id="md_start_date" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="end_date">End Date<span class="text-danger">*</span> </label>
+                            <input  type="date"  name="end_date" class="form-control" id="md_end_date" >
+                        </div>
+                    </div>
+
+                        
+                        <input type="hidden" name="patient_record_id" class="form-control" id="md_patient_record_id" value="{{record.patient_record_id}}">
+                    </div>
+                </div>    
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="addMedicationbtn" class="btn btn-primary">Submit<i class ="fas fa-check ml-2"></i></button>
+                        </div>
+                    
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /add medication modal -->
+
+
+<!-- EDIT laboratory result -->
+<div class="modal fade" id="edit_medication_modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-edit mr-2 text-secondary"></i>Edit Medication</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createLaboratoryResult()"> -->
+            <form id="editMedicationForm" method="POST">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit_drug_name">Drug Name <span class="text-danger">*</span> </label>
+                                <input type="text" name="edit_drug_name" class="form-control" id="edit_md_drug_name" placeholder="Enter Drug Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_dosage">Dosage<span class="text-danger">*</span> </label>
+                                <input  type="text"  name="edit_dosage" class="form-control" id="edit_md_dosage" >
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="edit_route">Route <span class="text-danger">*</span> </label>
+                                <select name="edit_route" id="edit_d_route" class="form-control select2">
+                                    <option label="Per Oris" value="Per Oris">Per Oris</option>
+                                    <option label="Per Rectum" value="Per Rectum">Per Rectum</option>
+                                    <option label="To Skin" value="To Skin">To Skin</option>
+                                    <option label="To Affected Area" value="To Affected Area">To Affected Area</option>
+                                    <option label="Sublingual" value="Sublingual">Sublingual</option>
+                                    <option label="IV" value="IV">IV</option>
+                                    <option label="Per Nostril" value="Per Nostril">Per Nostril</option>
+                                    <option label="Both Ears" value="Both Ears">Both Ears</option>
+                                    <option label="Left Ear" value="Left Ear">Left Ear</option>
+                                    <option label="Right Ear" value="Right Ear">Right Ear</option>
+                                    <option label="Inhale" value="Inhale">Inhale</option>
+                                    <option label="Intradermal" value="Intradermal">Intradermal</option>
+                                    <option label="Intramuscular" value="Intramuscular">Intramuscular</option>
+                                    <option label="Other/Miscellaneous" value="Other/Miscellaneous">Other/Miscellaneous</option>
+                                    <option label="Transdermal" value="Transdermal">Transdermal</option>
+                                </select>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="edit_frequency">Frequency<span class="text-danger">*</span> </label>
+                                <input  type="text"  name="edit_frequency" class="form-control" id="edit_md_frequency" >
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="edit_quantity">Quantity<span class="text-danger">*</span> </label>
+                                <input  type="text"  name="edit_quantity" class="form-control" id="edit_md_quantity" >
+                            </div>
+                        </div>
+    
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="edit_medications_status">Medication Status <span class="text-danger">*</span> </label>
+                                <select name="edit_medications_status" id="edit_md_medication_status" class="form-control select2">
+                                    <option label="No Change" value="No Change">No Change</option>
+                                    <option label="Start" value="Start">Start</option>
+                                    <option label="Stop" value="Stop">Stop</option>
+                                    <option label="Increase" value="Increase">Increase</option>
+                                    <option label="Decrease" value="Decrease">Decrease</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit_refill">Refill</label>
+                                <input  type="text"  name="edit_refill" class="form-control" id="edit_md_refill" >
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="edit_instructions">Instructions<span class="text-danger">*</span> </label>
+                                <input  type="text"  name="edit_instructions" class="form-control" id="edit_md_instructions" >
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit_start_date">Start Date<span class="text-danger">*</span> </label>
+                                <input  type="date"  name="edit_start_date" class="form-control" id="edit_md_start_date" >
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="edit_end_date">End Date<span class="text-danger">*</span> </label>
+                                <input  type="date"  name="edit_end_date" class="form-control" id="edit_md_end_date" >
+                            </div>
+                        </div>
+                        <input type="hidden" name="patient_record_id" class="form-control" id="edit_medication_id">
+                    </div>
+                </div>
+                <div class="modal-footer col-md-12">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" id="editLab" class="btn btn-info">
+                        <span>Yes, update it!</span>
+                        <i class ="fas fa-check ml-1"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /edit Lab Result -->
+
+
+
+<!-- View Medication -->
+<div class="modal fade" id="view_medication_modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-file-alt mr-2 text-secondary"></i>View Medication</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createDiagnosticResult()"> -->
+                <div class="modal-body">
+                    <p>Medication Details</p>
+                    <div class = "table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Drug Name:</th>
+                                <td><span id="v_drug_name"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Dosage:</th>
+                                <td><span id="v_dosage"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Route:</th>
+                                <td><span id="v_route"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Frequency:</th>
+                                <td><span id="v_frequency"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Quantity:</th>
+                                <td><span id="v_quantity"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Medication Status:</th>
+                                <td><span id="v_medication_status"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Refill:</th>
+                                <td><span id="v_refill"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Instructions:</th>
+                                <td><span id="v_instructions"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Start Date:</th>
+                                <td><span id="v_start_date"></span></td>
+                            </tr>
+                            <tr>
+                                <th>End Date:</th>
+                                <td><span id="v_end_date"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                        <!-- <div class="form-group">
+                            <label>Drug Name:</label>
+                                <span id="v_drug_name"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Dosage:</label>
+                                <span id="v_dosage"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Route:</label>
+                                <span id="v_route"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Frequency:</label>
+                                <span id="v_frequency"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Quantity:</label>
+                                <span id="v_quantity"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Medication Status:</label>
+                                <span id="v_medication_status"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Refill:</label>
+                                <span id="v_refill"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Instructions:</label>
+                                <span id="v_instructions"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Start Date:</label>
+                                <span id="v_start_date"></span> 
+                        </div><hr>
+                        <div class="form-group">
+                            <label>End Date:</label>
+                                <span id="v_end_date"></span> 
+                        </div> -->
+                        <input type="hidden" name="patient_record_id" class="form-control" id="view_medication">
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Edit diagnostic Result -->
+</div>

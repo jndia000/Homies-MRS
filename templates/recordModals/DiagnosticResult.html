@@ -1,0 +1,148 @@
+<!-- Add diagnostic result -->
+<div class="modal fade" id="diagnostic_result_modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-file-alt mr-2 text-secondary"></i>Add Diagnostic Result</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createDiagnosticResult()"> -->
+            <form id="addDiagnosticForm" method="POST">
+                <div class="row">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Physician <span class="text-danger">*</span> </label>
+                            <select class="form-control select2" id="doc_id" name="doc_idname" required>
+                                    <option value=""></option>
+                             
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Diagnosis <span class="text-danger">*</span> </label>
+                            <input class="form-control" type="text" id="diagnosis" name="diagnosisname"  placeholder="Enter Diagnosis" required> 
+                        </div>
+                        <div class="form-group">
+                            <label>Description <span class="text-danger">*</span> </label>
+                            <textarea name="description" id="description" class="form-control" rows="4" placeholder="Enter Description" required></textarea>
+                        </div>
+                        <input type="hidden" name="patient_record_id" class="form-control" id="patient_record_p" value="{{record.patient_record_id}}">
+                    </div>
+                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="addDiagnostic" class="btn btn-primary">Submit<i class ="fas fa-check ml-2"></i></button>
+                        </div>
+                    
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /add diagnostic Result -->
+
+
+<!-- Edit Diagnostic Result Modal -->
+<div class="modal fade" id="edit_diagnostic_result">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-edit mr-2 text-secondary"></i>Update Diagnostic Result</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createDiagnosticResult()"> -->
+            <form id="editDiagnosticForm" method="PUT">
+                <div class="row">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label >Physician </label>
+                            <select class="form-control select2" id="edit_doc_id_diagnosis" name="edit_doc_id_diagnosis">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Diagnosis </label>
+                            <input type="text" name="edit_diagnosisname" class="form-control" id="edit_diagnosis" placeholder="Enter Diagnosis"> 
+                        </div>
+                        <div class="form-group">
+                            <label>Description </label>
+                            <textarea id="edit_description" name="edit_descriptionname" class="form-control" rows="4" placeholder="Enter Description"></textarea>
+                        </div>
+                        <input type="hidden" name="patient_record_id" class="form-control" id="edit_patient_record_p">
+                    </div>
+                </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="updateDiagnostic" class="btn btn-info">
+                                <span>Yes, update it!</span>
+                                <i class ="fas fa-check ml-1"></i>
+                            </button>
+                        </div>
+                    
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Edit diagnostic Result -->
+
+
+
+<!-- View Diagnostic Result Modal -->
+<div class="modal fade" id="view_diagnostic_result">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-file-alt mr-2 text-secondary"></i>View Diagnostic Result</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createDiagnosticResult()"> -->
+                <div class="modal-body">
+                    <p>Diagnostic Result Details</p>
+                    <div class = "table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Physician</th>
+                                <td><span id="d_doc_id"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Diagnosis</th>
+                                <td><span id="d_diagnosis"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td><span id="d_description"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!-- <table class="table border-bottom w-100">
+                        <tr>
+                            <th>Physician</th>
+                            <td id="d_doc_id"></td>
+                        </tr>
+                        <tr>
+                            <th>Diagnosis</th>
+                            <td id="d_diagnosis"></td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td id="d_description">
+                        </tr>
+                    </table> -->
+                        <input type="hidden" name="patient_record_id" class="form-control" id="view_patient_record_p">
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Edit diagnostic Result -->
+</div>

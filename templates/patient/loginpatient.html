@@ -1,0 +1,221 @@
+<script>
+    var token = localStorage.getItem('token');
+    var user_type = localStorage.getItem('user_type');
+    
+    if(token != null && user_type != 'Patient'){
+        window.location.replace('http://127.0.0.1:8000/main')
+    }
+    if(token != null && user_type == 'Patient'){
+        window.location.replace('http://127.0.0.1:8000/home')
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Patient Login | Hospital Online Appointment</title>
+    {%block css%}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/fontawesome-free/css/all.min.css')}}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{url_for('static', path='/dist/css/adminlte.min.css')}}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+    {%endblock%}
+</head>
+
+<!-- 
+| =================================================================================
+| LOGIN PAGE - body tag must have .login-page and .bg-white class
+| =================================================================================
+-->
+
+<body class="hold-transition login-page bg-white">
+
+    <!-- 
+    | =================================================================================
+    | LOGIN FORM (CENTERED)
+    | =================================================================================
+    -->
+    <div class="login-box" style="width: 25%;">
+        <div class="card card-outline card-primary">
+            <div class="login-logo" style="margin-top: -65px;">
+                <div class="card-header text-center">
+                    <!-- <div class="">E-APP</div> -->
+                    <div style="margin-bottom: -65px;">
+						<img src="../../static/dist/img/dms_logo.png" class="brand-image" 
+                        width="60%" alt="User Image">
+					</div>
+                </div>
+            </div>
+            
+            <div class="card-body">
+                <div class="card-body login-card-body" style="margin-top: -30px;">
+                    <p class="login-box-msg">Log in to book an appointment</p>
+                </div>
+
+
+
+
+                <form id="login_form" method="post">
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-group">
+                            <input type="text" id="username" class="form-control" name="username" placeholder="Username"
+                                required data-msg-required="Please enter your email.">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <label for="password">Password</label>
+                            <a class="mb-3" href="#">I forgot my password</a>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Password" required data-msg-required="Please enter your password.">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                     <!-- User Actions -->
+                     <div class="row">
+                        <div class="col-8">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember">
+                                <label for="remember">Remember Me</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                                <span>Log in</span>
+                                <i class="fas fa-sign-in-alt ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="dropdown-divider mt-5 mb-1"></div>
+
+                <!-- Quick Links -->
+                <div class="d-flex justify-content-between text-sm">
+                    <div>
+                        <a href="/">Home</a>
+                    </div>
+                    <div>
+                        <a href="#">About Us</a>
+                        <span class="text-secondary">&middot;</span>
+                        <a href="#">Terms and Policies</a>
+                    </div>
+                </div>
+
+                <p style="margin-top: 20px;">
+					<a class="mb-3 font-weight-bold small" href="#">Don't have an account yet? Register Here.</a>
+				</p>
+            </div>
+        </div>
+    </div>
+
+
+    {%block plugins_css%}
+    <!-- for script includes -->
+    {%include 'includes/scripts.html'%}
+    
+    {%endblock%}
+
+
+
+
+<script>
+
+$('#loginBtn').click(function (e) {
+            // alert('hi');  
+            var valid = this.form.checkValidity();
+
+            if (valid) {
+                var username = $('#username').val();
+                var password = $('#password').val();
+            }
+            var data = { username, password };
+            console.log(data);
+            e.preventDefault();
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/verify',
+                type: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'Application/json' },
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(data),
+                success: result => {
+                    // console.log(result)
+                    // toastr.success('You are logged in')
+                    toastr.options = {
+                    positionClass: "toast-top-center",
+                    };
+                    if (result) {
+                        if (result === 404) {
+                            toastr.error('Invalid Credentails')
+                        }
+                        else if (result === 4041) {
+                            toastr.error('Invalid Password')
+                        }
+                        else if (result === 4040) {
+                            toastr.error('User is inactive')
+                        }
+                        else {
+                            console.log(result);
+                            if(result.user.user_typesFK.title == 'Patient'){
+
+                                // Store important data to local storage for session
+                                localStorage.setItem('token', result.access_token);
+                                localStorage.setItem('user_ID', result.user.user_id);
+                                localStorage.setItem('user_type', result.user.user_typesFK.title);
+                                localStorage.setItem('user_first_name', result.user.users_profilesFK[0].first_name);
+                                localStorage.setItem('user_middle_name', result.user.users_profilesFK[0].middle_name);
+                                localStorage.setItem('user_last_name', result.user.users_profilesFK[0].last_name);
+                                localStorage.setItem('patient_id', result.user.users_profilesFK[0].patient_id);
+
+                                // Set the session data
+                                const sessionData =
+                                    'token=' + result.access_token +
+                                    '&user_id=' + result.access_token;
+                                // '&user_type=' + data.user_type;
+                                    toastr.success('You are logged in')
+                                // Redirect to oAuth
+
+                                setTimeout(' window.location.href = "http://127.0.0.1:8000/home"', 1000);
+                                }else{
+                                toastr.error('Invalid User')
+                                }
+                        }
+                    }
+
+
+                },
+                error: () => console.error('GET ajax failed')
+            });
+
+        });
+
+
+</script>
+
+</html>

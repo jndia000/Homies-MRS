@@ -1,0 +1,377 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Address AutoComplete</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css' integrity='sha512-oc9+XSs1H243/FRN9Rw62Fn8EtxjEYWHXRvjS43YtueEewbS6ObfXcJNyohjHqVKFPoXXUxwc+q1K7Dee6vv9g==' crossorigin='anonymous'/>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css' integrity='sha512-yI2XOLiLTQtFA9IYePU0Q1Wt0Mjm/UkmlKMy4TU4oNXEws0LybqbifbO8t9rEIU65qdmtomQEQ+b3XfLfCzNaw==' crossorigin='anonymous'/>
+</head>
+<body class="bg-secondary">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <a class="navbar-brand" href="/">ADDRESS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-md-7 col-sm-10 mr-auto ml-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Your Address:</h3>
+                        <span id="address"></span>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="region">Region</label>
+                            <select name="region" id="region"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="province">Province</label>
+                            <select readonly="true" name="province" id="province"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="municipality">Municipality</label>
+                            <select readonly="true" name="municipality" id="municipality"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="barangay">Barangay</label>
+                            <select readonly="true" name="barangay" id="barangay"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="house_street">House No. and Street</label>
+                            <input type="text" class="form-control" name="house_street" id="house_street">
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end">
+                        <div class="btn btn-default mr-2" id="clear">Clear</div>
+                        <div class="btn btn-primary" id="save">Save</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js' integrity='sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==' crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.bundle.min.js' integrity='sha512-iceXjjbmB2rwoX93Ka6HAHP+B76IY1z0o3h+N1PeDtRSsyeetU3/0QKJqGyPJcX63zysNehggFwMC/bi7dvMig==' crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.full.min.js' integrity='sha512-orfBhUXN61JpjXpFeA1NkJ1c2IOtytP4aMxpKqpE2ToIEn5wz4+BiM8xLXEJVxCVubpQOQhFbQWdbF3qLkYYcg==' crossorigin='anonymous'></script>
+
+    <!-- Custom Scripts -->
+    <script>
+    // Get Data if any
+    let region = localStorage.getItem('region')             || null
+    let province = localStorage.getItem('province')         || null
+    let municipality = localStorage.getItem('municipality') || null
+    let barangay = localStorage.getItem('barangay')         || null
+    let house_street = localStorage.getItem('house_street') || null
+    let full_address = localStorage.getItem('full_address') || null
+
+    function setRegion(){
+        // Get region from storage (in this case, localStorage)
+        let region = localStorage.getItem('region') || null
+        $.ajax({
+            type: "get",
+            url: "https://psgc.gitlab.io/api/regions",
+            dataType: "json",
+            success: function (response) {
+                $('[name=region]').append(`
+                    <option value="">Choose Region</option>
+                `)
+                response.forEach(el=>{
+                    // Create element builder
+                    let builder
+                    // Compare if region is same with code
+                    if(el.code == region){
+                        p_region = el.code
+                        // Add "selected" attribute if match
+                        builder = `
+                            <option selected value="${el.code}">${el.name} (${el.regionName})</option>
+                        `
+                    }else{
+                        // Otherwise, add as option
+                        builder = `
+                            <option value="${el.code}">${el.name} (${el.regionName})</option>
+                        `
+                    }
+                    // Add element builder to select
+                    $('[name=region]').append(builder)
+                })
+            }
+        });
+    }
+
+    function setProvince(code, value = null){
+        $('[name=province]').prop('readonly', false)
+        $('[name=province]').empty()
+        $('[name=barangay]').prop('readonly', true)
+        $('[name=barangay]').empty()
+        $('[name=municipality]').prop('readonly', true)
+        $('[name=municipality]').empty()
+        $('[name=province]').append(`
+            <option value="">Choose Province</option>
+        `)
+        
+        if(code != '130000000'){
+            $.ajax({
+                type: "get",
+                url: "https://psgc.gitlab.io/api/regions/"+code+"/provinces",
+                dataType: "json",
+                success: function (response) {
+                    response.forEach(el=>{
+                        if(el.code == value){
+                            builder = `
+                                <option selected value="${el.code}">${el.name}</option>
+                            `
+                        }else{
+                            builder = `
+                                <option value="${el.code}">${el.name}</option>
+                            `
+                        }
+                            $('[name=province]').append(builder)
+                    })
+                }
+            });
+        }else{
+            region = code
+            $.ajax({
+                type: "get",
+                url: "https://psgc.gitlab.io/api/districts",
+                dataType: "json",
+                success: function (response) {
+                    response.forEach(el=>{
+                        if(el.code == value){
+                            builder = `
+                                <option selected value="${el.code}">${el.name}</option>
+                            `
+                        }else{
+                            builder = `
+                                <option value="${el.code}">${el.name}</option>
+                            `
+                        }
+                        $('[name=province]').append(builder)
+                    })
+                }
+            });
+        }
+    }
+
+    function setMunicipality(code, region, value = null){
+        $('[name=municipality]').prop('readonly', false)
+        $('[name=municipality]').empty()
+        $('[name=barangay]').prop('readonly', true)
+        $('[name=barangay]').empty()
+        $('[name=municipality]').append(`
+            <option value="">Choose Municipality</option>
+        `)
+
+        if(region != '130000000'){
+            $.ajax({
+                type: "get",
+                url: "https://psgc.gitlab.io/api/provinces/"+code+"/cities-municipalities",
+                dataType: "json",
+                success: function (response) {
+                    response.forEach(el=>{
+                        if(el.code == value){
+                            builder = `
+                                <option selected value="${el.code}">${el.name}</option>
+                            `
+                        }else{
+                            builder = `
+                                <option value="${el.code}">${el.name}</option>
+                            `
+                        }
+                        $('[name=municipality]').append(builder)
+                    })
+                }
+            });
+        }else{
+            $.ajax({
+                type: "get",
+                url: "https://psgc.gitlab.io/api/districts/"+code+"/cities",
+                dataType: "json",
+                success: function (response) {
+                    response.forEach(el=>{
+                        if(el.code == value){
+                            builder = `
+                                <option selected value="${el.code}">${el.name}</option>
+                            `
+                        }else{
+                            builder = `
+                                <option value="${el.code}">${el.name}</option>
+                            `
+                        }
+                        $('[name=municipality]').append(builder)
+                    })
+                }
+            });
+        }
+    }
+
+    function setBarangay(code, value = null){
+        $('[name=barangay]').prop('readonly', false)
+        $('[name=barangay]').empty()
+        
+        
+        $.ajax({
+            type: "get",
+            url: "https://psgc.gitlab.io/api/cities-municipalities/"+code+"/barangays",
+            dataType: "json",
+            success: function (response) {
+                $('[name=barangay]').append(`
+                    <option value="">Choose Barangay</option>
+                `)
+                response.forEach(el=>{
+                    if(el.code == value){
+                        builder = `
+                            <option selected value="${el.code}">${el.name}</option>
+                        `
+                    }else{
+                        builder = `
+                            <option value="${el.code}">${el.name}</option>
+                        `
+                    }
+                    $('[name=barangay]').append(builder)
+                })
+            }
+        });
+    }
+
+    function setAddress(){
+        setProvince(region, province)
+        setMunicipality(province, region, municipality)
+        setBarangay(municipality, barangay)
+        $('[name=house_street]').val(house_street)
+        $('#address').text(full_address)
+    }
+
+    $(document).ready(()=>{
+
+        $('[name=region]').select2({width: '100%', placeholder: {id: '', text: 'Select Region'}})
+        $('[name=province]').select2({width: '100%', placeholder: {id: '', text: 'Select Region First'}})
+        $('[name=municipality]').select2({width: '100%', placeholder: {id: '', text: 'Select Province First'}})
+        $('[name=barangay]').select2({width: '100%', placeholder: {id: '', text: 'Select Municipality First'}})
+
+
+        // Get Regions First
+        setRegion()
+
+        // OnChange Event of REGION to fill respective PROVINCES
+        $('[name=region]').on('change', function(){
+            region = $(this).val()
+            setProvince(region)
+        })
+
+        // OnChange Event of PROVINCE to fill respective MUNICIPALITIES
+        $('[name=province]').on('change', function(){
+            province = $(this).val()
+            setMunicipality(province, region)
+        })
+
+        // OnChange Event of MUNICIPALITY to fill respective BARANGAYS
+        $('[name=municipality]').on('change', function(){
+            municipality = $(this).val()
+            setBarangay(municipality)
+        })
+
+        // If there is an existing address, fill up the form
+        if (full_address != null){
+            setAddress()
+        }
+
+    })
+   
+    function saveAddress(){
+        // Get INPUT values
+        let region_val = $('#region').val()
+        let province_val = $('#province').val()
+        let municipality_val = $('#municipality').val()
+        let barangay_val = $('#barangay').val()
+        let house_street_val = $('#house_street').val()
+
+        // Get SELECTED text (using Select2)
+        let barangay_text = $('[name=barangay]').select2('data')[0].text
+        let municipality_text = $('[name=municipality]').select2('data')[0].text
+        let province_text = $('[name=province]').select2('data')[0].text
+        let region_text = $('[name=region]').select2('data')[0].text.split(' (')[0]
+        let full_address_text = `${house_street_val}, ${barangay_text}, ${municipality_text}, ${province_text}, ${region_text}`
+
+
+        // Invalidate incomplete address
+        if(
+            region_val        == '' ||
+            province_val      == '' ||
+            municipality_val  == '' ||
+            barangay_val      == '' ||
+            house_street_val  == ''
+        ){
+            alert('Invalid Address')
+        }else{
+            // Save data to storage
+            localStorage.setItem('region', region_val)
+            localStorage.setItem('province', province_val)
+            localStorage.setItem('municipality', municipality_val)
+            localStorage.setItem('barangay', barangay_val)
+            localStorage.setItem('house_street', house_street_val)
+            localStorage.setItem('full_address', full_address_text)
+
+            // Retrieve new data from storage
+            // Alternatively, we can store new data in variables instead of retrieving from storage
+            region = localStorage.getItem('region')
+            province = localStorage.getItem('province')
+            municipality = localStorage.getItem('municipality')
+            barangay = localStorage.getItem('barangay')
+            house_street = localStorage.getItem('house_street')
+            full_address = localStorage.getItem('full_address')
+
+            console.log({
+                region,
+                province,
+                municipality,
+                barangay,
+                house_street,
+                full_address
+            })
+            
+            // Set address dynamically
+            setAddress()
+        }
+    }
+
+    // Save details on click
+    $('#save').on('click', saveAddress)
+
+    // Clear on click
+    $('#clear').on('click', function(){
+        // Remove from storage
+        localStorage.removeItem('region')
+        localStorage.removeItem('province')
+        localStorage.removeItem('municipality')
+        localStorage.removeItem('barangay')
+        localStorage.removeItem('house_street')
+        localStorage.removeItem('full_address')
+
+        // Reset Variables
+        region = ''
+        province = ''
+        municipality = ''
+        barangay = ''
+        house_street = ''
+        full_address = ''
+
+        // Reset Form
+        $('#address').text('')
+        setRegion()
+        $('#region').val('')
+        $('#province').val('').empty()
+        $('#municipality').val('').empty()
+        $('#barangay').val('').empty()
+        $('#house_street').val('').empty()
+    })
+   </script>
+</body>
+</html>

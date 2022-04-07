@@ -1,0 +1,8 @@
+__pycache__/**
+**/__pycache__/**
+venv
+.env
+static/app/files/**
+static/app/pdf/**
+static/images/**
+/Backup Files/**

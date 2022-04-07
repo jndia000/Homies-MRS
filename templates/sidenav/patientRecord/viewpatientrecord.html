@@ -1,0 +1,434 @@
+<!-- Apply layout from base.html -->
+{%extends 'base/base.html'%}
+
+<!-- page title -->
+{%block title%}
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+    <title>Patient Record | Hospital Management System</title>
+{%endblock%}
+
+<!-- side nav -->
+{%block sidenav%}
+<!-- Module Name -->
+<li class="nav-header font-weight-bold text-wrap">MEDICAL RECORD SYSTEM</li>
+            
+    <li class="nav-header">CORE</li>
+        <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+
+    <li class="nav-header">MEDICAL RECORD</li>
+        <li class="nav-item">
+            <a href="/patientRecord" class="nav-link active">
+                <i class="nav-icon fas fa-procedures"></i>
+                <p>Patient Record</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/medicalRequest" class="nav-link">
+                <i class="nav-icon fas fa-paper-plane"></i>
+                <p>Medical Request</p>
+            </a>
+        </li>
+<!-- <li class="nav-header">LOGS</li>
+          <li class="nav-item">
+            <a href="/patientcalllogs" class="nav-link">
+              <i class="nav-icon fas fa-phone"></i>
+              <p>Patient Call Log</p>
+            </a>
+          </li> -->
+    <!-- <li class="nav-header">ADMINISTRATOR</li>
+        <li class="nav-item">
+            <a href="/backup" class="nav-link">
+                <i class="nav-icon fas fa-database"></i>
+                <p>Backup Database</p>
+            </a>
+        </li> -->
+{%endblock%}
+
+<!-- main content -->
+{%block content%}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+      <div class="container-fluid">
+          <div class="row mb-2">
+
+              <!-- Title -->
+              <div class="col-sm-6">
+                  <h1>Patient Record</h1>
+              </div>
+
+              <!-- Breadcrumb -->
+              <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="/patientRecord">Patient Records</a></li>
+                      <li class="breadcrumb-item active">View Patient Record</li>
+                  </ol>
+              </div>
+              <!-- / breadcrumb -->
+          </div>
+      </div>
+      <!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+
+<input type="hidden" name="" class="form-control" id="patient_record_id_record" value="{{record.patient_record_id}}">
+<input type="hidden" name="" class="form-control" id="patient_id_record" value="{{record.patient_id}}">
+<section class="content">
+    <div class="container-fluid">
+        <!-- /Add buttons -->
+        <div class="col-12 col-md-12">
+            <div class="card card-primary card-outline card-tabs">
+                <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-eight-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-eight-patient-details-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-patient-details" role="tab" aria-controls="custom-tabs-eight-patient-details"
+                                aria-selected="true">Demographics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-eight-profile-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-medical-history" role="tab" aria-controls="custom-tabs-eight-medical-history"
+                                aria-selected="false">Medical History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-eight-medical-problem-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-medical-problem" role="tab" aria-controls="custom-tabs-eight-medical-problem"
+                                aria-selected="false">Medical Problem</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-eight-diagnostic-result-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-diagnostic-result" role="tab" aria-controls="custom-tabs-eight-diagnostic-result"
+                                aria-selected="false">Diagnostic Result</a>
+                        </li>
+                        <li class="nav-item"> 
+                            <a class="nav-link" id="custom-tabs-eight-laboratory-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-laboratory" role="tab" aria-controls="custom-tabs-eight-laboratory"
+                                aria-selected="false">Laboratory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-eight-clinical-notes-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-clinical-notes" role="tab" aria-controls="custom-tabs-eight-clinical-notes"
+                                aria-selected="false">Progress Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-eight-prescriptions-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-prescriptions" role="tab" aria-controls="custom-tabs-eight-prescriptions"
+                                aria-selected="false">Prescriptions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-eight-patient-discharge-tab" data-toggle="pill"
+                                href="#custom-tabs-eight-patient-discharge" role="tab" aria-controls="custom-tabs-eight-patient-discharge"
+                                aria-selected="false">Discharge</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- demographics -->
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-eight-tabContent">
+                        <!-- patient details content -->
+                        <div class="tab-pane fade show active" id="custom-tabs-eight-patient-details" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-patient-details">
+                                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                                    data-target="#edit_details">
+                                        <span>Edit Patient Demographics</span>
+                                        <i class="fa fa-edit ml-1"></i>
+                                </button>
+                                {%include 'recordModals/PatientDetails.html'%}
+                            <!-- <h3 class="card-title">Patient Info.</h3><br> -->
+                            <div class="card-body">
+                                <!-- <label >Patient Record ID: </label>
+                                    <span id="record_id"></span> <br> -->
+                                <!-- <label >Patient Name: </label>
+                                    <span id="patient_name"></span> <br>
+                                    
+                                <label >Vitals: </label><br>
+                                <label >&nbsp;&nbsp;&nbsp;&nbsp;Weight: </label>
+                                    <span id="patient_weight"></span> <br>
+                                <label >&nbsp;&nbsp;&nbsp;&nbsp;Height: </label>
+                                    <span id="patient_height"></span> <br>
+                                <label >&nbsp;&nbsp;&nbsp;&nbsp;Blood Type: </label>
+                                    <span id="patient_blood_type"></span> <br>
+                                <label >Gender: </label>
+                                    <span id="patient_gender"></span> <br>
+                                <label >Guardian: </label>
+                                    <span id="patient_guardian"></span> <br>
+                                <label >Birthdate: </label>
+                                    <span id="patient_bday"></span> <br>
+                                <label >Contact Number: </label>
+                                    <span id="patient_contact"></span> <br>
+                                <label >Address: </label>
+                                    <span id="patient_address"></span> <br> -->
+                            </div>
+                        </div>
+                        <!-- history content -->
+                        <div class="tab-pane fade" id="custom-tabs-eight-medical-history" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-medical-history">
+                            <!-- add / edit  history btn -->
+                                <span id="history_btn"></span>
+                                {%include 'recordModals/MedicalHistory.html'%}
+                            <div class="card-body">
+                                <span id="p_history"></span>
+                                
+                            </div>
+                        </div>
+                        {%include 'recordModals/MedicalProblem.html'%}
+                        <!-- medical problem content -->
+                        <div class="tab-pane fade" id="custom-tabs-eight-medical-problem" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-medical-problem-tab">
+                                    <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                                    data-target="#problemmodal">
+                                        <span>Add Medical Problem</span>
+                                        <i class="fa fa-plus ml-1"></i>
+                                    </button>
+                                    <input type="hidden" name="patient_record_id" class="form-control" id="patient_record_prob" value="{{record.patient_record_id}}">
+                                <br>
+                                
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <table id="problem_table" class="table table-bordered table-hover">
+                                    <thead >
+                                        <tr>
+                                            <th>Problem</th>
+                                            <th>Note</th>
+                                            <th>Status</th>
+                                            <th>Date Occured</th> 
+                                            <th>Date Resolved</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {%include 'recordModals/DiagnosticResult.html'%}
+                        <!-- diagnosis result content -->
+                        <div class="tab-pane fade" id="custom-tabs-eight-diagnostic-result" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-diagnostic-result-tab">
+                                    <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                                        data-target="#diagnostic_result">
+                                        <span>Add Diagnostic Result</span>
+                                        <i class="fa fa-plus ml-1"></i>
+                                    </button>
+                                <br>
+                            <div class="card-body">
+                                <table id="diagnosis_table" class="table table-bordered table-hover">
+                                    <thead >
+                                        <tr>
+                                            <th>Diagnosis</th>
+                                            <th>Diagnosis Description</th>
+                                            <th>Physician</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {%include 'recordModals/Laboratory.html'%}
+
+                        <!-- laboratory content -->
+                        <div class="tab-pane fade" id="custom-tabs-eight-laboratory" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-laboratory-tab">
+                            <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                                data-target="#lab_result">
+                                <span>Add Laboratory Result</span>
+                                <i class="fa fa-plus ml-1"></i>
+                            </button>
+                            <br>
+                
+                            <div class="card-body">
+                                <table id="laboratory_table" class="table table-bordered table-hover">
+                                    <thead >
+                                        <tr>
+                                            <th>Result</th>
+                                            <th>Detailed Result</th>
+                                            <th>Specimen</th>
+                                            <th>Unit</th>
+                                            <th>Reference</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        {%include 'recordModals/ClinicalNotes.html'%}
+                        <!-- clinical notes -->
+                        <div class="tab-pane fade" id="custom-tabs-eight-clinical-notes" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-clinical-notes-tab">
+                                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                                    data-target="#clinical_notes" >
+                                        <span>Add Progress Note</span>
+                                        <i class="fa fa-plus ml-1"></i>
+                                </button>
+                                <br>
+                
+                            <div class="card-body">
+                                <table id="note_table" class="table table-bordered table-hover">
+                                    <thead >
+                                        <tr>
+                                            <th id="patient_reason_for_consultation">Reason for Consultation</th>
+                                            <th id="patient_physical_examination">Physical Examination</th>
+                                            <th id="patient_impression">Impression</th>
+                                            <th id="patient_recommendation">Recommendation</th>
+                                            <th id="patient_next_appointment">Next Appointment</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        {%include 'recordModals/Prescription.html'%}
+                        <!-- prescriptions content -->
+                        <div class="tab-pane fade" id="custom-tabs-eight-prescriptions" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-prescriptions-tab">
+                            <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                                data-target="#prescription">
+                                    <span>Add Prescription</span>
+                                    <i class="fa fa-plus ml-1"></i>
+                            </button>
+                            <br>
+                
+                            <div class="card-body">
+                                <table id="d_prescription_table" class="table table-bordered table-hover">
+                                    <thead >
+                                        <tr>
+                                            <th>Drug</th>
+                                            <th>Quantity</th>
+                                            <th>Intake</th>
+                                            <th>Note</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- <button type="button" class="btn btn-primary float-right" data-toggle="modal" 
+                                data-target="#prescription_supply">
+                                    <span>Add</span>
+                                    <i class="fa fa-plus ml-1"></i>
+                            </button> -->
+                            <br>
+                            <div class="card-body">
+                                <table id="s_prescription_table" class="table table-bordered table-hover">
+                                    <thead >
+                                        <tr>
+                                            <th>Medication Supply</th>
+                                            <th>Quantity</th>
+                                            <th>Note</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                
+                        </div>
+                        {%include 'recordModals/PatientDischarge.html'%}
+
+                        <!-- Patient Discharge content -->
+                        <div class="tab-pane fade" id="custom-tabs-eight-patient-discharge" role="tabpanel"
+                            aria-labelledby="custom-tabs-eight-patient-discharge-tab">
+                                    <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                                        data-target="#patient_discharge">
+                                        <span>Add Discharge</span>
+                                        <i class="fa fa-plus ml-1"></i>
+                                    </button>
+                                <br>
+                            <div class="card-body">
+                                <table id="discharge_table" class="table table-bordered table-hover">
+                                    <thead >
+                                        <tr>
+                                            <th>Reason of Admittance</th>
+                                            <th>Diagnosis at Admittance</th>
+                                            <th>Treatment Summary</th>
+                                            <th>Ending Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /.content-wrapper -->
+
+
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+<!-- Toastr -->
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+
+<script src="{{url_for('static', path='/recordsAJAX/recordValidations.js')}}"></script>
+
+<!-- medical history -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalHistory.js')}}"></script>
+
+<!-- medical problem -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalProblem.js')}}"></script>
+
+<!-- diagnosis -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalDiagnosis.js')}}"></script>
+
+<!-- laboratory -->
+<script src="{{url_for('static', path='/recordsAJAX/labResult.js')}}"></script>
+
+<!-- clinical notes -->
+<script src="{{url_for('static', path='/recordsAJAX/clinicalNotes.js')}}"></script>
+
+<!-- -rescription -->
+<script src="{{url_for('static', path='/recordsAJAX/prescription.js')}}"></script>
+
+<!-- medical record -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalRecord.js')}}"></script>
+
+<!-- patient details-->
+<script src="{{url_for('static', path='/recordsAJAX/patientDetails.js')}}"></script>
+
+<!-- discharge-->
+<script src="{{url_for('static', path='/recordsAJAX/patientDischarge.js')}}"></script>
+
+<!-- InputMask -->
+<script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
+
+<!-- Select2 -->
+<script src="{{url_for('static', path='/plugins/select2/js/select2.full.min.js')}}"></script>
+<script>
+
+$('.select2').select2()
+
+</script>
+<script>
+    //Money Euro
+    $(":input").inputmask();
+    $("#patient_phone").inputmask({"mask": "(9999) 999-9999"});
+</script>
+ 
+ {%endblock%}
+
+

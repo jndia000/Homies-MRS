@@ -1,0 +1,172 @@
+
+<!-- Confirmation modal -->
+<div class="modal fade" id="request_cancel_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+
+                <h4 class="modal-title"> <i class="fas fa-trash-alt mr-2 text-danger"></i>Cancel Request</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <form id="requestCancelForm" action="PUT">
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Reason for Cancellation:</label>
+                        <textarea class="form-control" id="a_reason" rows="5" cols="50" ></textarea>
+                    </div>
+                </div>
+                <input type="hidden" name="del_request_id" id="cancel_request_id">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="submit" id="reqDeletetbtn" class="btn btn-warning"><span>Yes, cancel it.</span><i
+                        class="fas fa-times-circle ml-1"></i></button>
+            </div>
+
+
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /confirmation logout -->   
+
+<!-- Medical Request Modal -->
+<div class="modal fade" id="medical_request">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="nav-icon fas fa-paper-plane"></i> Medical Request</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+                    
+                    <div class="modal-body">
+                        <div class="row">
+                            <p>Request Details</p>
+                                <div class = "table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Patient Name: </th>
+                                            <td><span id="view_requester_name"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Records Requested: </th>
+                                            <td><span id="view_request_information"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Reason for Disclosure: </th>
+                                            <td><span id="view_disclosure_reason"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Delivery: </th>
+                                            <td><span id="view_delivery"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email: </th>
+                                            <td><span id="view_email"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Date Requested: </th>
+                                            <td><span id="view_created_at"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Status: </th>
+                                            <td><span id="view_active_status"></span></td>
+                                        </tr>
+                                        <tr id="v_review_reason">
+                                            <th>Reason: </th>
+                                            <td><span id="view_review_reason"></span></td>
+                                        </tr>
+                                        <tr id="v_review_date">
+                                            <th>Review Date: </th>
+                                            <td><span id="view_review_date"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                        </div>
+                    </div>
+                            <div  class="modal-footer float-right col-md-12">
+                                <button id="request_close_action_btn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <div id="request_action_btn">
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#r_medical_request" data-dismiss="modal">Reject<i class="fas fa-times ml-1"></i></button>
+                                    <button type="button"  class="btn btn-primary"data-toggle="modal" data-target="#approve_medical_request" data-dismiss="modal">Approve<i class="fas fa-check ml-1"></i></button> 
+                                </div>
+                            </div> 
+           
+        </div>
+        <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /edit Medical History modal -->
+
+<!-- Reject Modal -->
+<div class="modal fade" id="r_medical_request">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="nav-icon fas fa-times"></i> Reject</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <form id="rejectRequestForm" method="PUT" >
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Reason for Rejection:</label>
+                                        <textarea class="form-control" id="r_reason" rows="5" cols="50" ></textarea>
+                                        <input type="hidden" name="r_request_id" id="r_request_id">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="modal-footer float-right col-md-12">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                <button class ="btn btn-warning" id="rejectBtn">Yes, reject it. <i class="fas fa-times ml-1"></i></button>
+                                
+                            </div>
+            </form>   
+        </div>
+        <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /Reject modal -->
+
+<!-- Approve Modal -->
+<div class="modal fade" id="approve_medical_request">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="nav-icon fas fa-check"></i> Approve</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <form id="approveRequestForm" method="PUT" >
+                        <div class="modal-body">
+                            <p>Are you sure you want to approve this request?</p>     
+                            <input type="hidden"  id="r_approve_request_id">
+                            <input type="hidden"  id="r_approve_patient_id">
+                            <input type="hidden"  id="r_approve_email">
+                            <input type="hidden"  id="r_approve_delivery">
+                        </div>
+                        <div class="modal-footer float-right col-md-12">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                            <button class ="btn btn-primary" type="submit">Yes, approve it. <i class="fas fa-check ml-1"></i></button>
+                        </div>
+            </form>   
+        </div>
+        <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /Approve modal -->

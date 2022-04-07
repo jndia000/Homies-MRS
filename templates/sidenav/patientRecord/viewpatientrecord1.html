@@ -1,0 +1,873 @@
+<!-- Apply layout from base.html -->
+{%extends 'base/base.html'%}
+
+<!-- page title -->
+{%block title%}
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{url_for('static', path='/plugins/toastr/toastr.min.css')}}">
+    <title>Patient Record | Hospital Management System</title>
+{%endblock%}
+
+<!-- side nav -->
+{%block sidenav%}
+<!-- Module Name -->
+<li class="nav-header font-weight-bold text-wrap">MEDICAL RECORD SYSTEM</li>
+            
+    <li class="nav-header">CORE</li>
+        <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+
+    <li class="nav-header">MEDICAL RECORD</li>
+        <li class="nav-item">
+            <a href="/patientRecord" class="nav-link active">
+                <i class="nav-icon fas fa-procedures"></i>
+                <p>Patient Record</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/medicalRequest" class="nav-link">
+                <i class="nav-icon fas fa-paper-plane"></i>
+                <p>Medical Request</p>
+            </a>
+        </li>
+<!-- <li class="nav-header">LOGS</li>
+          <li class="nav-item">
+            <a href="/patientcalllogs" class="nav-link">
+              <i class="nav-icon fas fa-phone"></i>
+              <p>Patient Call Log</p>
+            </a>
+          </li> -->
+    <!-- <li class="nav-header">ADMINISTRATOR</li>
+        <li class="nav-item">
+            <a href="/backup" class="nav-link">
+                <i class="nav-icon fas fa-database"></i>
+                <p>Backup Database</p>
+            </a>
+        </li> -->
+{%endblock%}
+
+<!-- main content -->
+{%block content%}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+      <div class="container-fluid">
+          <div class="row mb-2">
+
+              <!-- Title -->
+              <div class="col-sm-6">
+                  <h1>Patient Record</h1>
+              </div>
+
+              <!-- Breadcrumb -->
+              <div class="col-sm-6">
+                  <ol class="breadcrumb float-sm-right">
+                      <li class="breadcrumb-item"><a href="/patientRecord">Patient Records</a></li>
+                      <li class="breadcrumb-item active">View Patient Record</li>
+                  </ol>
+              </div>
+              <!-- / breadcrumb -->
+          </div>
+      </div>
+      <!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+
+<section class="content">
+    <div class="container-fluid">
+
+
+        <div class="row">
+            <div class="col-12">
+                <!-- /**
+* ===========================================================================
+* * DEMOGRAPHICS
+* ===========================================================================
+*/ -->   
+<div class="tab-pane card card-primary card-outline" id="demographics_tab" 
+role="tabpanel" aria-labelledby="custom-tab-demographics">
+<div class="card-header">
+    <h3 class="card-title right-tab">Demographics</h3>
+    <span id="action_button"></span>   
+</div>
+<div class="card-body">
+    <div class="row">
+        <div class = "col-4">
+            <div class="card-body box-profile">
+                <div class="text-center">
+                    <i class="fas fa-user fa-10x"></i>
+                </div>
+
+                <h3 class="profile-username text-center"><span id="patient_name"></span></h3>
+
+                <p class="text-muted text-center"><span class="badge" id="patient_type"></span></p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Birthdate</b> <a class="float-right"><span id="patient_bday"></span></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Contact Number</b> <a class="float-right"><span id="patient_contact"></span></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Address</b> <a class="float-right"><span id="patient_address"></span></a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Guardian</b> <a class="float-right"><span id="patient_guardian"></span></a>
+                  </li>
+                </ul>
+              </div>
+        </div>
+        <div class = "col-8">
+            <!-- Gender, Bloodtype -->
+            <div class = "row p-5">
+            <div class="col-12 col-sm-6">
+                <div class="info-box shadow-none">
+                  <div class="info-box-content">
+                    <span class="info-box-text text-center"><i class = "fas fa-venus-mars fa-3x pink-color"></i></span>
+                    <h5 class="info-box-number text-center text-muted mb-0"><span id="patient_gender"></span></h5>
+                    <p class="text-muted text-center">Gender</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="info-box shadow-none">
+                  <div class="info-box-content">
+                    <span class="info-box-text text-center"><i class="fas fa-droplet fa-3x red-color"></i></span>
+                    <h5 class="info-box-number text-center text-muted mb-0"><span id="patient_blood_type"></h5>
+                        <p class="text-muted text-center">Blood Type</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <!-- HEIGHT, WEIGHT, BMI -->
+            <div class = "row p-5">
+                <div class="col-12 col-sm-4">
+                    <div class="info-box shadow-none">
+                      <div class="info-box-content">
+                        <span class="info-box-text text-center"><i class="fas fa-ruler-vertical fa-3x green-color"></i></span>
+                        <h5 class="info-box-number text-center text-muted mb-0"><span id="patient_height"></span>cm</h5>
+                        <p class="text-muted text-center">Height</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="info-box shadow-none">
+                      <div class="info-box-content">
+                        <span class="info-box-text text-center"><i class="fa-solid fa-weight-scale fa-3x orange-color"></i></span>
+                        <h5 class="info-box-number text-center text-muted mb-0"><span id="patient_weight"></span>kg</h5>
+                            <p class="text-muted text-center">Weight</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <div class="info-box shadow-none">
+                      <div class="info-box-content">
+                        <span class="info-box-text text-center"><i class="fas fa-scale-balanced fa-3x brown-color"></i></span>
+                        <h5 class="info-box-number text-center text-muted mb-0"><span id="patient_bmi_status"></span></h5>
+                        <h5 class="info-box-number text-center text-muted mb-0"><span id="patient_bmi"></span></h5>
+                        <p class="text-muted text-center">BMI</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+        </div>
+      </div>
+</div>
+<!-- /.card-body -->
+</div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Menus</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-sm btn-default" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+<!-- /**
+* ===========================================================================
+* * PATIENT RECORD TABS
+* ===========================================================================
+*/ -->
+                        <ul class="nav nav-pills flex-column">
+                            <!-- <li class="nav-item">
+                                <a href="#demographics_tab" class="nav-link" id="demographics" 
+                                    data-toggle="pill" role="tab" aria-controls="custom-tab-demographics">
+                                    <i class="fas fa-id-card"></i> Demographics
+                                </a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a href="#history_tab" class="nav-link" id="historytab"
+                                    data-toggle="pill" role="tab" aria-controls="custom-tab-history">
+                                    <i class="fas fa-book-medical"></i> Medical History
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#medication_tab" class="nav-link" id="medications"
+                                    data-toggle="pill" role="tab" aria-controls="custom-tab-medication">
+                                    <i class="fas fa-capsules"></i> Medications
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#allergy_tab" class="nav-link" id="allergy"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-allergy">
+                                    <i class="fas fa-allergies"></i> Allergy
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#immunization_tab" class="nav-link" id="immunizations"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-immunizations">
+                                    <i class="fas fa-syringe"></i> Immunizations
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#problem_tab" class="nav-link" id="medical_problem" 
+                                    data-toggle="pill" role="tab" aria-controls="custom-tab-problem">
+                                    <i class="fas fa-head-side-cough"></i> Medical Problem
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#diagnostic_result_tab" class="nav-link" id="diagnostic_result"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-diagnostic">
+                                    <i class="fas fa-stethoscope"></i> Diagnostic Result
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#laboratory_tab" class="nav-link" id="laboratory"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-laboratory">
+                                    <i class="fas fa-flask"></i> Laboratory
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#surgery_tab" class="nav-link" id="surgery"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-surgery">
+                                    <i class="fas fa-heartbeat"></i> Surgery
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#progress_notes_tab" class="nav-link" id="progress_notes"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-progress-notes">
+                                    <i class="fas fa-notes-medical"></i> Progress Notes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#prescriptions_tab" class="nav-link" id = "prescription"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-prescriptions">
+                                    <i class="fas fa-prescription"></i> Prescription
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#attachments_tab" class="nav-link" id="attachments"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-attachments">
+                                    <i class="fas fa-paperclip"></i> Attachments
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#discharge_tab" class="nav-link" id="discharge"
+                                data-toggle="pill" role="tab" aria-controls="custom-tab-discharge">
+                                    <i class="fas fa-user-check"></i> Discharge History
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+            
+            <input type="hidden" name="" class="form-control" id="patient_record_id_record" value="{{record.patient_record_id}}">
+            <input type="hidden" name="" class="form-control" id="patient_id_record" value="{{record.patient_id}}">
+            <!-- side content  -->
+            <div class= "col-md-9">
+                <!--content-->
+                <div class="tab-content"> 
+
+<!-- /**
+* ===========================================================================
+* * HISTORY
+* ===========================================================================
+*/ --> 
+ 
+{%include 'recordModals/MedicalHistory.html'%}
+                    <div class="tab-pane card card-primary card-outline show active" id="history_tab" 
+                        role="tabpanel" aria-labelledby="custom-tab-history">
+                        <div class="card-header">
+                            <h3 class="card-title right-tab">Medical History</h3>
+                        </div>
+                        <div class="card-body table-responsive" id = "right-tab-content">
+                            <div class = "row" id="p_history">
+                                <div class = "col-md-6 table-responsive">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <th class = "text-right">Chief Complaint:</th>
+                                            <td><span id="history-chief_complaint"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Previous Hospital:</th>
+                                            <td><span id="history-prev_hospital"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Previous Doctor:</th>
+                                            <td><span id="history-prev_doctor"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Previous Diagnosis:</th>
+                                            <td><span id="history-prev_diagnosis"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Previous Treatment:</th>
+                                            <td><span id="history-prev_treatment"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Previous Surgeries:</th>
+                                            <td><span id="history-prev_surgeries"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Previous Medications:</th>
+                                            <td><span id="history-prev_medication"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class = "col-md-6 table-responsive">
+                                    <table class="table table-borderless">
+                                        <tr>
+                                            <th class = "text-right">Health Conditions:</th>
+                                            <td><span id="history-health_conditions"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Special Privileges:</th>
+                                            <td><span id="history-special_privileges"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th class = "text-right">Family History:</th>
+                                            <td><span id="history-family_history"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+<!-- /**
+* ===========================================================================
+* * MEDICATIONS
+* ===========================================================================
+*/ -->
+{%include 'recordModals/Medication.html'%}
+<div class="tab-pane card card-primary card-outline" id="medication_tab" role="tabpanel" aria-labelledby="custom-tab-medication">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Medication</h3>
+        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#medication_modal">
+            <span>Add Medication</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>   
+    </div>
+    <div class="card-body table-responsive" id = "right-tab-content">
+        <table id="medication_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Drug Name</th>
+                    <th>Dosage</th>
+                    <th>Frequency</th>
+                    <th>Quantity</th>
+                    <th>Medical Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+<!-- /**
+* ===========================================================================
+* * ALLERGY
+* ===========================================================================
+*/ -->
+{%include 'recordModals/Allergy.html'%}
+<div class="tab-pane card card-primary card-outline" id="allergy_tab" 
+role="tabpanel" aria-labelledby="custom-tab-allergy">
+<div class="card-header">
+    <h3 class="card-title right-tab">Allergy</h3>
+    <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                        data-target="#allergy_modal">
+                        <span>Add Allergy</span>
+                        <i class="fa fa-plus ml-1"></i>
+                    </button>   
+</div>
+<div class="card-body table-responsive" id = "right-tab-content">
+    <table id="allergy_table" class="table table-bordered table-hover">
+        <thead >
+            <tr>
+                <th>Allergen</th>
+                <th>Reaction</th>
+                <th>Severity</th>
+                <!-- <th>Comment</th> -->
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<!-- /.card-body -->
+</div>
+
+<!-- /**
+* ===========================================================================
+* * IMMUNIZATIONS
+* ===========================================================================
+*/ -->
+{%include 'recordModals/Immunizations.html'%}
+<div class="tab-pane card card-primary card-outline" id="immunization_tab" 
+role="tabpanel" aria-labelledby="custom-tab-immunizations">
+<div class="card-header">
+    <h3 class="card-title right-tab">Immunizations</h3>
+    <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                        data-target="#immunization_modal">
+                        <span>Add Immunization</span>
+                        <i class="fa fa-plus ml-1"></i>
+                    </button>   
+</div>
+<div class="card-body table-responsive" id = "right-tab-content">
+    <table id="immunization_table" class="table table-bordered table-hover">
+        <thead >
+            <tr>
+                <th>Vaccine</th>
+                <th>Type</th>
+                <th>Date Given</th>
+                <th>Administered by</th>
+                <!-- <th>Action</th> -->
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<!-- /.card-body -->
+</div>
+
+
+<!-- /**
+* ===========================================================================
+* * PROBLEM
+* ===========================================================================
+*/ --> 
+{%include 'recordModals/MedicalProblem.html'%}
+            <div class="tab-pane card card-primary card-outline" id="problem_tab" role="tabpanel" aria-labelledby="custom-tab-problem">
+                <div class="card-header">
+                    <h3 class="card-title right-tab">Medical Problem</h3>
+                    <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+                        data-target="#problemmodal">
+                        <span>Add Medical Problem</span>
+                        <i class="fa fa-plus ml-1"></i>
+                    </button>   
+                </div>
+                <div class="card-body table-responsive" id = "right-tab-content">
+                    <table id="problem_table" class="table table-bordered table-hover">
+                        <thead >
+                            <tr>
+                                <th>Problem</th>
+                                <th>Note</th>
+                                <th>Status</th>
+                                <th>Date Occured</th> 
+                                <th>Date Resolved</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+
+<!-- /**
+* ===========================================================================
+* * DIAGNOSTIC RESULT
+* ===========================================================================
+*/ -->
+{%include 'recordModals/DiagnosticResult.html'%}
+<div class="tab-pane card card-primary card-outline" id="diagnostic_result_tab" 
+    role="tabpanel" aria-labelledby="custom-tab-diagnostic">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Diagnostic Result</h3>
+        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#diagnostic_result_modal">
+            <span>Add Diagnostic Result</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>  
+    </div>
+    <div class="card-body table-responsive" id = "right-tab-content">
+        <table id="diagnosis_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Diagnosis</th>
+                    <th>Diagnosis Description</th>
+                    <th>Physician</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+
+
+
+<!-- /**
+* ===========================================================================
+* * LABORATORY
+* ===========================================================================
+*/ -->
+{%include 'recordModals/Laboratory.html'%}
+<div class="tab-pane card card-primary card-outline" id="laboratory_tab" 
+    role="tabpanel" aria-labelledby="custom-tab-laboratory">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Laboratory Result</h3>
+        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#lab_result">
+            <span>Add Laboratory Result</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>  
+    </div>
+    <div class="card-body table-responsive" id = "right-tab-content">
+        <table id="laboratory_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Result</th>
+                    <!-- <th>Detailed Result</th> -->
+                    <th>Specimen</th>
+                    <th>Unit</th>
+                    <th>Reference</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<!-- /**
+* ===========================================================================
+* * Surgery
+* ===========================================================================
+*/ -->
+{%include 'recordModals/Surgery.html'%}
+<div class="tab-pane card card-primary card-outline" id="surgery_tab" 
+    role="tabpanel" aria-labelledby="custom-tab-surgery">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Surgery</h3>
+        <!-- <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#patient_surgery">
+            <span>Add Surgery</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>   -->
+    </div>
+    <div class="card-body table-responsive" id = "right-tab-content">
+        <table id="surgery_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Surgery Type</th>
+                    <!-- <th>Detailed Result</th> -->
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<!-- /**
+* ===========================================================================
+* * PROGRESS NOTES
+* ===========================================================================
+*/ -->
+{%include 'recordModals/ClinicalNotes.html'%}
+<div class="tab-pane card card-primary card-outline" id="progress_notes_tab" 
+    role="tabpanel" aria-labelledby="custom-tab-progress-notes">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Progress Notes</h3>
+        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#clinical_notes">
+            <span>Add Progress Note</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>  
+    </div>
+    <div class="card-body table-responsive" id = "right-tab-content">
+        <table id="note_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th id="patient_consultation_date">Consultation Date</th>
+                    <th id="patient_reason_for_consultation">Reason for Consultation</th>
+                    <th id="patient_physical_examination">Physical Examination</th>
+                    <th id="patient_impression">Impression</th>
+                    <th id="patient_recommendation">Recommendation</th>
+                    <th id="patient_next_appointment">Next Appointment</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+<!-- /**
+* ===========================================================================
+* * PRESCRIPTION
+* ===========================================================================
+*/ -->
+{%include 'recordModals/Prescription.html'%}
+<div class="tab-pane card card-primary card-outline" id="prescriptions_tab" 
+    role="tabpanel" aria-labelledby="custom-tab-prescriptions">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Prescriptions</h3>
+        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#prescription_modal">
+            <span>Add Prescription</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>  
+    </div>
+    <div class="card-body table-responsive" id = "right-tab-content">
+        <table id="d_prescription_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Drug</th>
+                    <th>Quantity</th>
+                    <th>Intake</th>
+                    <!-- <th>Note</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <table id="s_prescription_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Medication Supply</th>
+                    <th>Quantity</th>
+                    <!-- <th>Note</th> -->
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+<!-- /**
+* ===========================================================================
+* * ATTACHMENTS
+* ===========================================================================
+*/ -->
+{%include 'recordModals/Attachment.html'%}
+<div class="tab-pane card card-primary card-outline" id="attachments_tab" 
+    role="tabpanel" aria-labelledby="custom-tab-attachments">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Attachments</h3>
+        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#attachment_modal">
+            <span>Add Attachment</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>  
+    </div>
+    <!-- <div class="card-body" id = "right-tab-content">
+        <table id="attachments_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Type</th>
+                    <th>Attachment</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div> -->
+    <div class="card-body">
+        <h6 >Attachment Images</h6><br><br>
+        <div class="row" id="attachment_img">
+        </div>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /**
+* ===========================================================================
+* * DISCHARGE
+* ===========================================================================
+*/ -->
+{%include 'recordModals/PatientDischarge.html'%}
+<div class="tab-pane card card-primary card-outline" id="discharge_tab" 
+    role="tabpanel" aria-labelledby="custom-tab-discharge">
+    <div class="card-header">
+        <h3 class="card-title right-tab">Discharge History</h3>
+        <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" 
+            data-target="#patient_discharge">
+            <span>Add Discharge</span>
+            <i class="fa fa-plus ml-1"></i>
+        </button>  
+    </div>
+    <div class="card-body table-responsive" id = "right-tab-content">
+        <table id="discharge_table" class="table table-bordered table-hover">
+            <thead >
+                <tr>
+                    <th>Reason of Admittance</th>
+                    <th>Diagnosis at Admittance</th>
+                    <th>Treatment Summary</th>
+                    <th>Ending Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+
+
+
+            <!-- /.tab-content -->
+            </div>
+        <!-- /.side content -->
+            </div>
+            <!--/content-->
+            
+           
+            
+           
+
+        </div>
+        <!-- /.card -->
+
+    </div>
+</section>
+
+<!-- /.content-wrapper -->
+
+
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+<!-- Toastr -->
+<script src="{{url_for('static', path='/plugins/toastr/toastr.min.js')}}"></script>
+
+<script src="{{url_for('static', path='/recordsAJAX/recordValidations.js')}}"></script>
+
+<!-- medications -->
+<script src="{{url_for('static', path='/recordsAJAX/medications.js')}}"></script>
+
+<!-- allergy -->
+<script src="{{url_for('static', path='/recordsAJAX/allergy.js')}}"></script>
+
+<!-- immunization -->
+<script src="{{url_for('static', path='/recordsAJAX/immunization.js')}}"></script>
+
+<!-- attachment -->
+<script src="{{url_for('static', path='/recordsAJAX/attachment.js')}}"></script>
+
+<!-- medical history -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalHistory.js')}}"></script>
+
+<!-- medical problem -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalProblem.js')}}"></script>
+
+<!-- diagnosis -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalDiagnosis.js')}}"></script>
+
+<!-- laboratory -->
+<script src="{{url_for('static', path='/recordsAJAX/labResult.js')}}"></script>
+
+<!-- Surgery -->
+<script src="{{url_for('static', path='/recordsAJAX/surgery.js')}}"></script>
+
+<!-- clinical notes -->
+<script src="{{url_for('static', path='/recordsAJAX/clinicalNotes.js')}}"></script>
+
+<!-- -rescription -->
+<script src="{{url_for('static', path='/recordsAJAX/prescription.js')}}"></script>
+
+<!-- medical record -->
+<script src="{{url_for('static', path='/recordsAJAX/medicalRecord.js')}}"></script>
+
+<!-- patient details-->
+<script src="{{url_for('static', path='/recordsAJAX/patientDetails.js')}}"></script>
+
+<!-- discharge-->
+<script src="{{url_for('static', path='/recordsAJAX/patientDischarge.js')}}"></script>
+
+<!-- InputMask -->
+<script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+<script src="{{url_for('static', path='/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
+
+<!-- Select2 -->
+<script src="{{url_for('static', path='/plugins/select2/js/select2.full.min.js')}}"></script>
+<script>
+
+$('.select2').select2()
+
+</script>
+<script>
+    //Money Euro
+    $(":input").inputmask();
+    $("#patient_phone").inputmask({"mask": "(9999) 999-9999"});
+
+    $(function () {
+  bsCustomFileInput.init();
+
+  $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
+    });
+});
+</script>
+
+ 
+ {%endblock%}
+
+

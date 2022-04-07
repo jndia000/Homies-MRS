@@ -1,0 +1,139 @@
+<!-- Apply layout from base.html -->
+{%extends 'base/base.html'%}
+
+<!-- page title -->
+{%block title%}
+    <title>Patient Call Logs | Hospital Management System</title>
+{%endblock%}
+
+<!-- side nav -->
+{%block sidenav%}
+<!-- Module Name -->
+<li class="nav-header font-weight-bold text-wrap">MEDICAL RECORD SYSTEM</li>
+            
+    <li class="nav-header">CORE</li>
+        <li class="nav-item">
+            <a href="/dashboard" class="nav-link">
+                <i class="nav-icon fas fa-chart-line"></i>
+                <p>Dashboard</p>
+            </a>
+        </li>
+    <li class="nav-header">MEDICAL RECORD</li>
+        <li class="nav-item">
+            <a href="/patientRecord" class="nav-link active">
+                <i class="nav-icon fas fa-procedures"></i>
+                <p>Patient Record</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/medicalRequest" class="nav-link">
+                <i class="nav-icon fas fa-paper-plane"></i>
+                <p>Medical Request</p>
+            </a>
+        </li>
+    <!-- <li class="nav-header">ADMINISTRATOR</li>
+        <li class="nav-item">
+            <a href="/backup" class="nav-link">
+                <i class="nav-icon fas fa-database"></i>
+                <p>Backup Database</p>
+            </a>
+        </li> -->
+{%endblock%}
+
+<!-- Main content -->
+{%block content%}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+      <div class="row mb-2">
+
+          <!-- Title -->
+          <div class="col-sm-6">
+              <h1>Patient Call Log</h1>
+          </div>
+
+          <!-- Breadcrumb -->
+          <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/patientRecord">Patient Records</a></li>
+                  <li class="breadcrumb-item active">View Patient Call Log</li>
+              </ol>
+          </div>
+          <!-- / breadcrumb -->
+      </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+<input type="hidden" name="" class="form-control" id="patient_call_log_id_log" value="{{logs.patient_call_log_id}}">
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Card -->
+        <div class="card card-primary card-outline">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h3 class="card-title">Patient Call Logs</h3>
+                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle ="modal" data-target="#patient_call_log">
+                  <span>Add Call Log</span>
+                  <i class="fa fa-plus ml-1"></i></button>
+            </div>
+            <!-- /.card-header -->
+
+            <!-- Card Body -->
+            <!-- <div class="card-body">
+                <table id="call_log_table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name of Person Contacted</th>
+                            <th>Phone Number</th>
+                            <th>Details of Call</th>
+                            <th>Follow-up Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div> -->
+            <!-- /.card-body -->
+            <div class="card-body">
+                <span id="call_log_no_data"></span>
+                <div class="timeline" id="call_log_timeline">
+                    <!-- <div id="call_log_timeline"></div> -->
+                   
+                   
+                    
+                    <!-- <div>
+                      <i class="fas fa-clock bg-gray"></i>
+                    </div> -->
+                  </div>
+            </div>
+
+            
+        </div>
+        <!-- /.card -->
+
+    </div>
+    {%include 'recordModals/CallLog.html'%}
+
+</section>
+<!-- /.content -->
+{%endblock%}
+
+{%block scripts%}
+<!-- patient call logs-->
+<script src="{{url_for('static', path='/recordsAJAX/patientCallLogs.js')}}"></script>
+ <!-- InputMask -->
+ <script src="{{url_for('static', path='/plugins/moment/moment.min.js')}}"></script>
+ <script src="{{url_for('static', path='/plugins/inputmask/jquery.inputmask.min.js')}}"></script>
+ <script>
+    //Money Euro
+    $(":input").inputmask();
+    $("#contact_phone").inputmask({"mask": "(9999) 999-9999"});
+</script>
+
+
+{%endblock%}

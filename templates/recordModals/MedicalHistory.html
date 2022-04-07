@@ -1,0 +1,156 @@
+<!-- Add Medical History Modal -->
+<div class="modal fade" id="medical_history_modal">
+    <div class="modal-dialog  modal-dialog-scrollable modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Medical History</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createMedicalHistory()"> -->
+            <form id="addHistoryForm">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Chief of Complaint:<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Enter Chief of Complaint" id="chief_complaint" name="chief_complaint">
+                            </div>
+                            <div class="form-group">
+                                <label>Previous Hospital:</label>
+                                <input type="text" class="form-control" placeholder="Enter Previous Hospital" id="previous_hospital" name="previous_hospital">
+                            </div>
+                            <div class="form-group">
+                                <label>Previous Doctor:</label>
+                                <input type="text" class="form-control" placeholder="Enter Previous Doctor" id="previous_doctor" name="previous_doctor">
+                            </div>
+                            <div class="form-group">
+                                <label>Previous Diagnosis:</label>
+                                <input type="text" class="form-control" placeholder="Enter Previous Diagnosis" id="previous_diagnosis" name="previous_diagnosis">
+                            </div>
+                            <div class="form-group">
+                                <label>Previous Treatment:</label>
+                                <input type="text" class="form-control" placeholder="Enter Previous Treatment" id="previous_treatment" name="previous_treatment">
+                            </div>
+                            <div class="form-group">
+                              <label>Previous Surgeries:</label>
+                              <input type="text" class="form-control" placeholder="Enter Previous Surgeries" id="previous_surgeries" name="previous_surgeries">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Previous Medication:</label>
+                                <input type="text" class="form-control" placeholder="Enter Previous Medication" id="previous_medication" name="previous_medication">
+                              </div>
+                              <div class="form-group">
+                                <label>Health Condition:</label>
+                                <input type="text" class="form-control" placeholder="Enter Health Condition" id="health_condition" name="health_condition">
+                              </div>
+                              <div class="form-group">
+                                <label>Special Privileges:</label>
+                                <input type="text" class="form-control" placeholder="Enter Special PBrivileges" id="special_privileges" name="special_privileges">
+                              </div>
+                              <div class="form-group">
+                                <label>Family History:</label>
+                                <input type="text" class="form-control" placeholder="Enter Family History" id="family_history" name="family_history">
+                              </div>
+                        </div>
+                        
+                        
+                        <input type="hidden" name="patient_record_id" class="form-control" id="patient_record_mh" value="{{record.patient_record_id}}">
+                    </div>
+                </div>
+                        <div class="modal-footer col-md-12">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="addHistory" class="btn btn-primary">Submit<i class ="fas fa-check ml-2"></i></button>
+                        </div>
+                    
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Medical History modal -->
+
+<!-- edit Medical History Modal -->
+<div class="modal fade" id="edit_medical_history_modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-edit mr-2 text-secondary"></i>Update Medical History</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+                <form id="editMedicalHistoryForm" method="PUT">
+                {%for history in record.historyrecordFK%}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Chief of Complaint <span class="text-danger">*</span></label>
+                                    <input type="text" name="general_physician_update" class="form-control" id="chief_complaint_update">
+                                </div>
+                                <div class="form-group">
+                                    <label>Previous Hospital</label>
+                                    <input type="text" name="previous_hospital_update" class="form-control"  id="previous_hospital_update">
+                                </div>
+                            </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Previous Doctor</label>
+                                    <input type="text" name="previous_doctor_update" class="form-control" id="previous_doctor_update">
+                                </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Previous Diagnosis</label>
+                                    <input type="text" name="previous_diagnosis_update" class="form-control" id="previous_diagnosis_update">
+                                </div>
+                                <div class="form-group">
+                                    <label>Previous Treatment</label>
+                                    <input type="text" name="previous_treatment_update" class="form-control" id="previous_treatment_update">
+                                </div>
+                                <div class="form-group">
+                                    <label>Previous Surgeries</label>
+                                    <input type="text" name="previous_surgeries_update" class="form-control" id="previous_surgeries_update">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Previous Medication:</label>
+                                        <input type="text" class="form-control" id="previous_medication_update" name="previous_medication_update">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Health Condition:</label>
+                                        <input type="text" class="form-control" id="health_condition_update" name="health_condition_update">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Special Privileges:</label>
+                                        <input type="text" class="form-control" id="special_privileges_update" name="special_privileges_update">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Family History:</label>
+                                        <input type="text" class="form-control" id="family_history_update" name="family_history_update">
+                                      </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>    
+                            <input type="hidden" name="patient_record_id" class="form-control" id="patient_history_id_update" value="{{history.history_id}}">
+                        
+                            <div class="modal-footer col-md-12">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" id="editHistorybtn" class="btn btn-info">Yes, update it! <i class ="fas fa-check ml-1"></i> </button>
+                            </div>
+                        
+                    {%endfor%}
+            </form>   
+        </div>
+        <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /edit Medical History modal -->
+

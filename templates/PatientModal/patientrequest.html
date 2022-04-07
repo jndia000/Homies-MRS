@@ -1,0 +1,105 @@
+<!-- View Patient Request -->
+<div class="modal fade" id="view_patient_request_modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-file-alt mr-2 text-secondary"></i>View Request</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createDiagnosticResult()"> -->
+                <div class="modal-body">
+                    <p>Request Details</p>
+                    <div class = "table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Request Information: </th>
+                                <td><span id="v_request_information"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Reason for Disclosure: </th>
+                                <td><span id="v_disclosure_reason"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Delivery: </th>
+                                <td><span id="v_delivery"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Email: </th>
+                                <td><span id="v_email"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Date Requested: </th>
+                                <td><span id="v_created_at"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Status: </th>
+                                <td><span id="v_active_status"></span></td>
+                            </tr>
+                            <tr id="block_reason">
+                                <th>Reason: </th>
+                                <td><span id="v1_reivew_reason"></span></td>
+                            </tr>
+                            <tr id="block_review_date">
+                                <th>Review Date: </th>
+                                <td><span id="v_rev_date"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                        <input type="hidden" name="patient_record_id" class="form-control" id="view_patient_request">
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <span id="download_request_btn"></span>
+                        <button class ="btn btn-warning"  id="cancelBtn" role="button" data-toggle="modal" data-target="#c_patient_request_modal" data-dismiss="modal">Cancel Request<i class="fas fa-times-circle ml-1"></i></button>
+                    </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /view Patient Request -->
+</div>
+
+<!-- CANCEL REQUEST Modal -->
+<div class="modal fade" id="c_patient_request_modal">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="nav-icon fas fa-times-circle"></i> Cancel Medical Request</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault();"> -->
+            <form id="cancelRequestForm" method="PUT" >
+                
+                    
+                <!-- <input type="hidden" name="_method" value="PUT" /> -->
+                        <div class="modal-body">
+                            <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Reason for Cancellation:</label>
+                                    <textarea class="form-control" id="c_reason" rows="5" cols="50" ></textarea>
+                                    <input type="hidden" name="c_request_id" id="c_request_id">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            <div class="modal-footer float-right col-md-12">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                <button class ="btn btn-warning" id="cancelBtn">Yes, cancel it.<i class="fas fa-times-circle ml-1"></i></button>
+                                
+                            </div>
+                        
+                  
+            </form>   
+        </div>
+        <!-- /.modal-content -->
+    </div>
+<!-- /.modal-dialog -->
+</div>
+<!-- /Reject modal -->
+
+

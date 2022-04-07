@@ -1,0 +1,458 @@
+<script>
+    var token = localStorage.getItem('token');
+    var user_type = localStorage.getItem('user_type');
+    if (token == null) {
+        window.location.replace('http://127.0.0.1:8000/ ')
+    }
+    if(token != null && user_type != 'Patient'){
+        window.location.replace('http://127.0.0.1:8000/main')
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    {%include 'includes/header.html'%}
+    <title>Patient Hub | Hospital Management System</title>
+   
+</head>
+ 
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed user-select-none">
+    <div class="wrapper">
+ 
+        <!-- Top Navbar -->
+        <nav class="main-header navbar navbar-expand-md navbar-white navbar-light">
+           
+            <!-- Left navbar links togglers (for responsive) -->
+            <ul class="navbar-nav navbar-no-expand">
+ 
+                <!-- Sidebar Toggler -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </li>
+ 
+                <!-- Tobpar toggler -->
+                <li class="nav-item">
+                    <button class="nav-link navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                </li>
+            </ul>
+           
+            <!-- Left navbar links -->
+            <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+               
+            </div>  
+           
+            <!-- Right navbar links -->
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+           
+                <!-- User Menu -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" data-toggle="dropdown" role="button">
+                        <i class="fas fa-user-circle"></i>
+                        <!-- <span class="badge badge-warning navbar-badge">15</span> -->
+                    </a>
+           
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="#" class="dropdown-item d-flex align-items-center">
+                            <div class="mr-3" style="width: 1.25rem">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item d-flex align-items-center">
+                            <div class="mr-3" style="width: 1.25rem">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <span>Settings</span>
+                        </a>
+           
+                        <div class="dropdown-divider"></div>
+                       
+                        <a
+                            href="#"
+                            role="button"
+                            class="dropdown-item d-flex align-items-center"
+                            data-toggle="modal"
+                            data-target="#logout_modal"
+                        >
+                            <div class="mr-3" style="width: 1.25rem">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </div>
+                            <span>Log out</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+ 
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar main-sidebar-custom sidebar-light-primary">
+ 
+            <!-- Brand Logo -->
+            <a href="../../index3.html" class="brand-link">
+                <img src="../../static/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                    class="brand-image img-circle border" style="opacity: .8">
+                <span class="brand-text font-weight-light">HoMIES</span>
+            </a>
+ 
+            <!-- Sidebar -->
+            <div class="sidebar">
+ 
+                <!-- Sidebar user -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+ 
+                    <!-- User Image -->
+                    <div class="image">
+                        <img src="../../static/dist/img/user2-160x160.jpg" class="img-circle border" alt="User Image">
+                    </div>
+ 
+                    <!-- User Full Name -->
+                    <div class="info mr-1 w-100" id="userFullNameDisplay">
+ 
+                        <!-- User Full Name -->
+                        <a href="#" class="nav-item text-truncate" id="userFullName"></a>
+ 
+                        <!-- User Position -->
+                        <div class="small text-secondary text-truncate" id="userPosition"></div>
+ 
+                        <!-- User Department -->
+                        <!-- <div class="small text-secondary text-truncate" id="userDepartment">Information Technology (IT) Department</div> -->
+                    </div>
+                </div>
+ 
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+ 
+                        <!-- Module Name -->
+                        <li class="nav-header font-weight-bold text-wrap"> DOCTORS' MANAGEMENT SYSTEM</li>
+ 
+                        <li class="nav-header">CORE</li>
+                        <li class="nav-item">
+                            <a href="/home" class="nav-link">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+ 
+                        <li class="nav-header">APPOINTMENT</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-calendar-check"></i>
+                                <p>Book Appointment</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-md"></i>
+                                <p>Find a Doctor</p>
+                            </a>
+                        </li>
+ 
+                        <li class="nav-header">MEDICAL RECORD</li>
+                        <li class="nav-item">
+                            <a href="/records" class="nav-link active">
+                                <i class="nav-icon fas fa-notes-medical"></i>
+                                <p>Patient Record</p>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                <a href="/medicalRequest" class="nav-link">
+                    <i class="nav-icon fas fa-paper-plane"></i>
+                    <p>Medical Request</p>
+                </a>
+            </li> -->
+                    </ul>
+                </nav>
+            </div>
+ 
+            <!-- Sidebar Custom -->
+            <div class="sidebar-custom">
+                <a href="#" class="btn btn-sm btn-light"><i class="fas fa-cogs"></i></a>
+                <button class="btn btn-sm btn-danger hide-on-collapse pos-right" data-toggle="modal"
+                    data-target="#logout_modal">
+                    <span>Log out</span>
+                    <i class="fas fa-sign-out-alt ml-1"></i>
+                </button>
+            </div>
+        </aside>
+ 
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+ 
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <h1>Patient Record</h1>
+                    <p class="text-muted">Medical Record of the Patient</p>
+                </div>
+            </section>
+ 
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                   
+                   
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+ 
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <h3 class="card-title">Demographics</h3>
+                           
+                        </div>
+                        <!-- /.card-header -->
+                    
+                        <div class="card-body">
+                            <div class="row">
+                                <div class = "col-4">
+                                    <div class="card-body box-profile">
+                                        <div class="text-center">
+                                            <i class="fas fa-user fa-10x"></i>
+                                        </div>
+                        
+                                        <h3 class="profile-username text-center"><span id="view_patient_name"></span></h3>
+                        
+                                        <p class="text-muted text-center">Patient</p>
+                        
+                                        <ul class="list-group list-group-unbordered mb-3">
+                                          <li class="list-group-item">
+                                            <b>Birthdate</b> <a class="float-right"><span id="view_patient_bday"></span></a>
+                                          </li>
+                                          <li class="list-group-item">
+                                            <b>Contact Number</b> <a class="float-right"><span id="view_patient_contact"></span></a>
+                                          </li>
+                                          <li class="list-group-item">
+                                            <b>Address</b> <a class="float-right"><span id="view_patient_address"></span></a>
+                                          </li>
+                                          <li class="list-group-item">
+                                            <b>Guardian</b> <a class="float-right"><span id="view_patient_guardian"></span></a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                </div>
+                                <div class = "col-8">
+                                    <!-- Gender, Bloodtype -->
+                                    <div class = "row p-5">
+                                    <div class="col-12 col-sm-6">
+                                        <div class="info-box shadow-none">
+                                          <div class="info-box-content">
+                                            <span class="info-box-text text-center"><i class = "fas fa-venus-mars fa-3x pink-color"></i></span>
+                                            <h5 class="info-box-number text-center text-muted mb-0"><span id="view_patient_gender"></span></h5>
+                                            <p class="text-muted text-center">Gender</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-12 col-sm-6">
+                                        <div class="info-box shadow-none">
+                                          <div class="info-box-content">
+                                            <span class="info-box-text text-center"><i class="fas fa-droplet fa-3x red-color"></i></span>
+                                            <h5 class="info-box-number text-center text-muted mb-0"><span id="view_patient_blood_type"></h5>
+                                                <p class="text-muted text-center">Blood Type</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                <!-- HEIGHT, WEIGHT, BMI -->
+                                    <div class = "row p-5">
+                                        <div class="col-12 col-sm-4">
+                                            <div class="info-box shadow-none">
+                                              <div class="info-box-content">
+                                                <span class="info-box-text text-center"><i class="fas fa-ruler-vertical fa-3x green-color"></i></span>
+                                                <h5 class="info-box-number text-center text-muted mb-0"><span id="view_patient_height"></span>cm</h5>
+                                                <p class="text-muted text-center">Height</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-12 col-sm-4">
+                                            <div class="info-box shadow-none">
+                                              <div class="info-box-content">
+                                                <span class="info-box-text text-center"><i class="fa-solid fa-weight-scale fa-3x orange-color"></i></span>
+                                                <h5 class="info-box-number text-center text-muted mb-0"><span id="view_patient_weight"></span>kg</h5>
+                                                    <p class="text-muted text-center">Weight</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-12 col-sm-4">
+                                            <div class="info-box shadow-none">
+                                              <div class="info-box-content">
+                                                <span class="info-box-text text-center"><i class="fas fa-scale-balanced fa-3x brown-color"></i></span>
+                                                <h5 class="info-box-number text-center text-muted mb-0"><span id="view_patient_bmi_status"></span></h5>
+                                                <h5 class="info-box-number text-center text-muted mb-0"><span id="view_patient_bmi"></span></h5>
+                                                <p class="text-muted text-center">BMI</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                </div>
+                              </div>
+                        </div>
+                        
+                    </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+ 
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <h3 class="card-title">Record Request</h3>
+                            <a href="/recordRequest" type="button" class="btn btn-sm btn-primary float-right" >
+                                <span>Add Request</span>
+                                <i class="fa fa-plus ml-1"></i></a>
+                        </div>
+                        <!-- /.card-header -->
+                        <!--Modal of Record Request-->
+                       
+                        <!--/Modal of Record Request-->
+                        <div class="col-12">
+                            <div class="card-tabs">
+                              <div class="card-header p-0 pt-1 border-bottom-0">
+                                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                                  <li class="nav-item">
+                                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Pending Request</a>
+                                  </li>
+                                  <li class="nav-item">
+                                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">All Record Request</a>
+                                  </li>
+                                  
+                                </ul>
+                              </div>
+                              <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-three-tabContent">
+                                  <div class="tab-pane fade show active" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                    <table id="patient_pending_request_table" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Request Date</th>
+                                                <th>Status</th>
+                                                <th>Requested Information</th>
+                                                <th>Reason for Disclosure</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                  </div>
+                                  <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                                    <table id="patientrequest_table" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Request Date</th>
+                                                <th>Status</th>
+                                                <th>Requested Information</th>
+                                                <th>Reason for Disclosure</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- /.card -->
+                            </div>
+                          </div>
+
+
+
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            
+                            <!-- <table id="patientrequest_table" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Request Date</th>
+                                        <th>Status</th>
+                                        <th>Requested Information</th>
+                                        <th>Reason for Disclosure</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table> -->
+                            {%include 'PatientModal/patientrequest.html'%}
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+ 
+        <!-- Confirmation modal -->
+<div class="modal fade" id="logout_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+ 
+                <h4 class="modal-title"> <i class="fas fa-sign-out-alt mr-2 text-danger"></i>Log out</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to log out?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="logoutbtn" class="btn btn-danger"><span>Log out</span><i
+                        class="fas fa-sign-out-alt ml-1"></i></button>
+            </div>
+ 
+ 
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /confirmation logout -->    
+ 
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block"><b>Version</b> 3.1.0</div>
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
+        </footer>
+    </div>
+ 
+    <!-- for script includes -->
+    {%include 'includes/scripts.html'%}
+    <!-- PATIENT REQUEST JS SCRIPT -->
+<script src="{{url_for('static', path='/patientAJAX/patientRequest.js')}}"></script>
+
+<script src="{{url_for('static', path='/patientAJAX/patientSide.js')}}"></script>
+
+    <script>
+       $(function () {
+            $('#logoutbtn').click(function (e) {
+            window.localStorage.clear();
+            window.location.replace('http://127.0.0.1:8000/patientLogin')
+ 
+        });
+           
+            var user_first_name = localStorage.getItem('user_first_name').toUpperCase();
+            var user_middle_name = localStorage.getItem('user_middle_name').toUpperCase();
+            var user_last_name = localStorage.getItem('user_last_name').toUpperCase();
+            var user_type = localStorage.getItem('user_type');
+            $('#userFullName').html(user_first_name + ' ' + user_middle_name + ' ' + user_last_name);
+            $('#userPosition').html(user_type);
+});
+    </script>
+</body>
+ 
+</html>
+ 
+ 

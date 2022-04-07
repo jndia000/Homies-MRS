@@ -1,0 +1,137 @@
+<!-- Apply layout from base.html -->
+{%extends 'base/base.html'%}
+<!-- page title -->
+{%block title%}
+<title>User Record | Hospital Management System</title>
+{%endblock%}
+
+<!-- side nav -->
+{%block sidenav%}
+<!-- Module Name -->
+<li class="nav-header font-weight-bold text-wrap">MEDICAL RECORD SYSTEM</li>
+            
+<li class="nav-header">CORE</li>
+<li class="nav-item">
+    <a href="/dashboard" class="nav-link">
+        <i class="nav-icon fas fa-chart-line"></i>
+        <p>Dashboard</p>
+    </a>
+</li>
+
+<li class="nav-header">MEDICAL RECORD</li>
+<li class="nav-item">
+    <a href="/patientRecord" class="nav-link">
+        <i class="nav-icon fas fa-procedures"></i>
+        <p>Patient Record</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="/medicalRequest" class="nav-link">
+        <i class="nav-icon fas fa-paper-plane"></i>
+        <p>Medical Request</p>
+    </a>
+</li>
+<!-- <li class="nav-header">LOGS</li>
+          <li class="nav-item">
+            <a href="/patientcalllogs" class="nav-link">
+              <i class="nav-icon fas fa-phone"></i>
+              <p>Patient Call Log</p>
+            </a>
+          </li> -->
+<!-- <li class="nav-header">ADMINISTRATOR</li>
+<li class="nav-item">
+    <a href="/backup" class="nav-link">
+        <i class="nav-icon fas fa-database"></i>
+        <p>Backup Database</p>
+    </a>
+</li> -->
+
+{%endblock%}
+
+<!-- main content -->
+{%block content%}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+
+            <!-- Title -->
+            <div class="col-sm-6">
+                <h1>User Record</h1>
+            </div>
+
+            <!-- Breadcrumb -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">User Record</li>
+                </ol>
+            </div>
+            <!-- / breadcrumb -->
+
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Card -->
+        <div class="card card-primary card-outline">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h3 class="card-title">User Record Table</h3>
+                <button type="button" class="btn btn-sm btn-primary float-right" data-toggle="modal" data-target="#users">
+                  <span>Add User</span>
+                  <i class="fa fa-plus ml-1"></i></button>
+            </div>
+            <!-- /.card-header -->
+
+            <!-- Card Body -->
+            <div class="card-body">
+                <table id="user_table" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Role</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+
+<div class=card-body>
+</div>
+<!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+</div>
+</section>
+{%include 'admin/User.html'%}
+
+<!-- /.content -->
+{%endblock%}
+
+{%block scripts%}
+
+<!-- user management -->
+<script src="{{url_for('static', path='/adminAJAX/userManagement.js')}}"></script>
+<script src="{{url_for('static', path='/adminAJAX/user.js')}}"></script>
+<script>
+    // console.log(window,location.href)
+    // if(window.location.href = 'http://127.0.0.1:8000/users'){
+    //             $("#active_user_tab").attr("class",'active');
+
+    //         }
+    
+
+</script>
+{%endblock%}

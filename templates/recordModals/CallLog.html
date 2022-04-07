@@ -1,0 +1,210 @@
+<!-- Add call logs -->
+<div class="modal fade" id="patient_call_log">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Call Log</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form id="add_call_log_form" onsubmit="event.preventDefault(); addCallLog()"> -->
+                <form id="addPatientCallLogForm" method="POST">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Date <span class="text-danger">*</span> </label>
+                        <input type="date" name="date" class="form-control" id="call_log_date">
+                    </div>
+                    <!-- <div class="form-group">
+                                      <label>Payor Called:</label>
+                                      <input type="text" name="payor_called" class="form-control" id="payor_called" placeholder="Enter Payor Called"> 
+                                    </div> -->
+                    <div class="form-group">
+                        <label>Name of Person Contacted <span class="text-danger">*</span> </label>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="text" name="first_name" class="form-control" id="contact_first_name"
+                                    placeholder="Enter First Name">
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" name="last_name" class="form-control" id="contact_last_name"
+                                    placeholder="Enter Last Name">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>Phone Number <span class="text-danger">*</span> </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </div>
+                            <input type="text" name="phone_number" class="form-control" id="contact_phone"
+                            placeholder="0999-999-9999" 
+                            data-inputmask="'mask': ['9999-999-9999']" data-mask>
+                            </div>    
+                        </div>
+                        <div class="form-group">
+                            <label>Call Details <span class="text-danger">*</span> </label>
+                            <textarea id="call_details" class="form-control" name="call_details" rows="4"
+                                placeholder="Enter Details"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Follow-up Date </label>
+                            <input type="date" name="follow-up-date" class="form-control" id="follow_up_date">
+                        </div>
+                        <input type="hidden" name="patient_record_id" class="form-control" id="patient_call_log_id"
+                            value="{{logs.patient_call_log_id}}">
+                        </div>
+                    </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" id="addPatientCallLogbtn" class="btn btn-primary">Submit<i class ="fas fa-check ml-2"></i></button>
+                        </div>
+                    
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /add call logs -->
+
+<!-- View Call Logs Modal -->
+<div class="modal fade" id="view_call_logs">
+    <div class="modal-dialog modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-file-alt mr-2 text-secondary"></i>View Call Logs</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createDiagnosticResult()"> -->
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Date:</label>
+                            <span id="v_date"></span> 
+                    </div><hr>
+                    <div class="form-group">
+                        <label>Name of Person Contacted:</label>
+                            <span id="v_name"></span> 
+                    </div><hr>
+                    <div class="form-group">
+                        <label>Phone Number:</label>
+                            <span id="v_phone_number"></span> 
+                    </div><hr>
+                    <div class="form-group">
+                        <label>Call Details:</label>
+                            <span id="v_call_details"></span> 
+                    </div><hr>
+                    <div class="form-group">
+                        <label>Follow-up Date:</label>
+                            <span id="v_follow-up-date"></span> 
+                    </div>
+                    
+                    <!-- <table class="table border-bottom w-100">
+                        <tr>
+                            <th>Date</th>
+                            <td id="v_date"></td>
+                        </tr>
+                        <tr>
+                            <th>Name of Person Contacted</th>
+                            <td id="v_name"></td>
+                        </tr>
+                        <tr>
+                            <th>Phone Number</th>
+                            <td id="v_phone_number">
+                        </tr>
+                        <tr>
+                            <th>Call Details</th>
+                            <td id="v_call_details">
+                        </tr>
+                        <tr>
+                            <th>Follow-up Date</th>
+                            <td id="v_follow-up-date">
+                        </tr>
+                    </table> -->
+                        <input type="hidden" name="patient_record_id" class="form-control" id="view_call_logs_p">
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Edit Call Logs-->
+</div>
+
+
+<!-- Edit Call Logs Modal -->
+<div class="modal fade" id="edit_call_logs">
+    <div class="modal-dialog modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="modal-title-icon fas fa-edit mr-2 text-secondary"></i>Update Call Logs</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <!-- <form onsubmit="event.preventDefault(); createDiagnosticResult()"> -->
+            <form id="editCallLogForm" method="PUT">
+                <div class="row">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Date <span class="text-danger">*</span> </label>
+                            <input type="date" name="date" class="form-control" id="edit_call_log_date">
+                        </div>
+                        <div class="form-group">
+                            <label>Name of Person Contacted <span class="text-danger">*</span> </label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="text" name="first_name" class="form-control" id="edit_contact_first_name"
+                                        placeholder="Enter First Name">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input type="text" name="last_name" class="form-control" id="edit_contact_last_name"
+                                        placeholder="Enter Last Name">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                            <label>Phone Number <span class="text-danger">*</span> </label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                </div>
+                            <input type="text" name="phone_number" class="form-control" id="edit_contact_phone"
+                            placeholder="0999-999-9999" 
+                            data-inputmask="'mask': ['9999-999-9999']" data-mask>
+                            </div>    
+                        </div>
+                            <div class="form-group">
+                                <label>Call Details <span class="text-danger">*</span> </label>
+                                <textarea id="edit_call_details" class="form-control" name="call_details" rows="4"
+                                    placeholder="Enter Details"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Follow-up Date </label>
+                                <input type="date" name="follow-up-date" class="form-control" id="edit_follow_up_date">
+                            </div>
+                        <input type="hidden" name="patient_record_id" class="form-control" id="edit_call_logs_p">
+                    </div>
+                </div>
+                         <div class="modal-footer col-md-12">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" id="updateCallLogs" class="btn btn-info">Yes, update it! <i class ="fas fa-check ml-1"></i> </button>
+                            </div>
+                    
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Edit Call Logs -->
+
+
+
+

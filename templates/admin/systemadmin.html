@@ -1,0 +1,396 @@
+<script>
+    var token = localStorage.getItem('token');
+    var user_type = localStorage.getItem('user_type');
+    if (token == null) {
+        window.location.replace('http://127.0.0.1:8000/login')
+    }
+    if(token != null && user_type == 'Patient'){
+        window.location.replace('http://127.0.0.1:8000/home')
+    }
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    {%block title%}
+    {%endblock%}
+    <!-- for css includes -->
+    {%include 'includes/header.html'%}
+    
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed user-select-none">
+
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <!-- Preloader
+        <div class="preloader flex-column justify-content-center align-items-center">
+        <div 
+            class ="spinner-border text-primary"
+            role="status"
+            style="width: 2.5rem; height: 2.5rem;">
+        </div>
+      </div> -->
+
+      <nav class="main-header navbar navbar-expand-md navbar-white navbar-light">
+    
+
+        <!-- Left navbar links togglers (for responsive) -->
+        <ul class="navbar-nav navbar-no-expand">
+    
+            <!-- Sidebar Toggler -->
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </li>
+    
+            <!-- Tobpar toggler -->
+            <li class="nav-item">
+                <button class="nav-link navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                    <i class="fas fa-caret-down"></i>
+                </button>
+            </li>
+        </ul>
+        
+    
+        <!-- Left navbar links -->
+        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+            <ul class="navbar-nav">
+                     <!-- Home -->
+                     <li class="nav-item">
+                        <a class="nav-link" href="http://127.0.0.1:8000/main" role="button">
+                            <i class="fas fa-home"></i>
+                            <span class="d-inline-block d-md-none ml-1 ml-md-0">Home</span>
+                        </a>
+                    </li>
+            
+                    <!-- Hospital Core -->
+                    <li class="nav-item dropdown">
+                        <a 
+                            href="#" 
+                            data-toggle="dropdown" 
+                            class="nav-link dropdown-toggle"
+                        >Hospital Core</a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a href="#" class="dropdown-item">Patient Management</a></li>
+                            <li><a href="#" class="dropdown-item">Treatment Management</a></li>
+                            <li><a href="#" class="dropdown-item">Pharmacy</a></li>
+                            <li><a id="disable_record_top_nav" href="http://127.0.0.1:8000/dashboard" class="dropdown-item">Medical Record</a></li>
+                            <li><a href="#" class="dropdown-item">Doctors Management</a></li>
+                            <li><a href="#" class="dropdown-item">Visitors Management</a></li>
+                        </ul>
+                    </li>
+            
+                    <!-- Human Resource -->
+                    <li class="nav-item dropdown">
+                        <a 
+                            href="#" 
+                            data-toggle="dropdown" 
+                            class="nav-link dropdown-toggle"
+                        >Human Resource</a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a href="#" class="dropdown-item">Core Human Capital Management</a></li>
+                            <li><a href="#" class="dropdown-item">Recruitment Management</a></li>
+                            <li><a href="#" class="dropdown-item">Time & Attendance</a></li>
+                            <li><a href="#" class="dropdown-item">Performance Management</a></li>
+                        </ul>
+                    </li>
+            
+                    <!-- Finance -->
+                    <li class="nav-item dropdown">
+                        <a 
+                            href="#" 
+                            data-toggle="dropdown" 
+                            class="nav-link dropdown-toggle"
+                        >Finance</a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a href="#" class="dropdown-item">General Ledger</a></li>
+                            <li><a href="#" class="dropdown-item">Accounts Payable/Receivable</a></li>
+                            <li><a href="#" class="dropdown-item">Collection/Disbursement</a></li>
+                        </ul>
+                    </li>
+            
+                    <!-- Logistics -->
+                    <li class="nav-item dropdown">
+                        <a 
+                            href="#" 
+                            data-toggle="dropdown" 
+                            class="nav-link dropdown-toggle"
+                        >Logistics</a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a href="#" class="dropdown-item">Procurement Management</a></li>
+                            <li><a href="#" class="dropdown-item">Warehousing Management</a></li>
+                            <li><a href="#" class="dropdown-item">Asset Management</a></li>
+                            <li><a href="#" class="dropdown-item">Project Management</a></li>
+                        </ul>
+                    </li>
+                     <!-- System Administration -->
+                     <li class="nav-item">
+                        <a class="nav-link text-primary" href="http://127.0.0.1:8000/admin" role="button">
+                            <span>SysAdmin</span>
+                        </a>
+                    </li>
+                </ul>
+                </ul>
+            </div>  
+            <!-- /.navbar-nav -->
+
+            <!-- Right navbar links -->
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+
+                <!-- Accounr Dropdown Menu -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="fas fa-user-circle "></i>
+                    </a>
+                    <div class="dropdown-menu  dropdown-menu-center">
+                        <!-- <span class="dropdown-item dropdown-header">15 Notifications</span> -->
+                        <!-- <div class="dropdown-divider"></div> -->
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-user-circle mr-2"></i> Profile
+                            <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
+                        </a>
+                        <!-- <div class="dropdown-divider"></div> -->
+                        <a href="#" class="dropdown-item">
+                            <i class="fas fa-cog mr-2"></i> Settings
+                            <!-- <span class="float-right text-muted text-sm">12 hours</span> -->
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#logout_modal">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Log out
+                            <!-- <span class="float-right text-muted text-sm">2 days</span> -->
+                        </a>
+                        
+        
+                        <!-- <div class="dropdown-divider"></div> -->
+                        <!-- <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
+                    </div>
+                </li>
+            </ul>
+            <!-- /.navbar-nav -->
+
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar main-sidebar-custom sidebar-light-primary">
+
+            <!-- Brand Logo -->
+            <a href="http://localhost/mrs-web/pages/MRS/dashboard.html" class="brand-link">
+                <img src="../../static/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                    class="brand-image img-circle border" style="opacity: .8">
+                <span class="brand-text font-weight-light">HoMIES</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+                <!-- Sidebar user -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
+                    <!-- User Image -->
+                    <div class="image">
+                        <img 
+                            src="../../static/dist/img/user2-160x160.jpg" 
+                            class="img-circle border" 
+                            alt="User Image"
+                        >
+                    </div>
+                    
+                    <!-- User Full Name -->
+                    <div class="info mr-1 w-100" id="userFullNameDisplay">
+                        
+                        <!-- User Full Name -->
+                        <a href="#" class="nav-item text-truncate" id="current_user"></a>
+
+                        <!-- User Position -->
+                        <div class="small text-secondary text-truncate" id="userPosition"></div>
+                        
+                        <!-- User Department -->
+                        <div class="small text-secondary text-truncate" id="userDepartment"></div>
+                    </div>
+                </div>
+
+                
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+
+                  
+                        <!-- Module Name -->
+                        <li class="nav-header font-weight-bold text-wrap">SYSTEM ADMINISTRATION</li>
+
+                        <li class="nav-header">CORE</li>
+                        <li class="nav-item">
+                            <a href="http://127.0.0.1:8000/admin" class="nav-link active">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+            
+                        <li class="nav-header">USER MANAGEMENT</li>
+                        <li class="nav-item" id="if_admin1">
+                            <a href="/users" class="nav-link" id="active_user_tab">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a href="#hired-applicants" class="nav-link">
+                                <i class="nav-icon fas fa-handshake"></i>
+                                <p>
+                                    Link 2 -->
+                                    <!-- <span class="right badge badge-primary">99+</span> -->
+                                <!-- </p>
+                            </a>
+                        </li> -->
+                    </ul>
+                </nav>
+                        
+
+            </div>
+            <!-- /.sidebar -->
+
+            <!-- Sidebar Custom -->
+            <div class="sidebar-custom">
+                <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                <a href="#" class="btn btn-link"><i class="fas fa-cogs"></i></a>
+                </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                <a><button type="button" data-toggle="modal" data-target="#logout_modal" class="btn btn-danger"><span>Log out</span><i
+                    class="fas fa-sign-out-alt ml-1"></i></button></a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.sidebar-custom -->
+        </aside>
+        <!-- /.main-sidebar -->
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            <!-- BLOCK FOR MAIN CONTENT -->
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <h1>Dashboard</h1>
+                    <p class="text-muted">Admin Dashboard Page</p>
+                </div>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid"> 
+                    
+                    <!-- Under Maintenance -->
+                    <div class="d-flex flex-column justify-content-center align-items-center text-center">
+                        <div class="py-5 d-flex justify-content-center">
+                            <img 
+                                draggable="false"
+                                src="../../static/dist/img/under_construction.svg" 
+                                alt="Under Maintenance" 
+                                width="50%"
+                            >
+                        </div>
+                        <h4>Oops! This page is under maintenance.</h4>
+                        <p class="text-secondary">You can go back in others days. Sorry for the incovenience.</p>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+        <!-- /.content-wrapper -->
+
+
+    
+<!-- Confirmation modal -->
+<div class="modal fade" id="logout_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+
+                <h4 class="modal-title"> <i class="fas fa-sign-out-alt mr-2 text-danger"></i>Log out</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to log out?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="logoutbtn" class="btn btn-danger"><span>Log out</span><i
+                        class="fas fa-sign-out-alt ml-1"></i></button>
+            </div>
+
+
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /confirmation logout -->    
+
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; 2021-2022 <a
+                    href="http://localhost/mrs-web/pages/MRS/dashboard.html">mrs.com.ph</a>.</strong> All rights
+            reserved.
+        </footer>
+        <!-- /.main-footer -->
+    </div>
+    <!-- ./wrapper -->
+
+
+    <!-- for script includes -->
+    {%include 'includes/scripts.html'%}
+
+    {%block plugins_js%}
+    {%endblock%}
+    <script>
+        $('#logoutbtn').click(function (e) {
+            window.localStorage.clear();
+            window.location.replace('http://127.0.0.1:8000/login')
+
+        });
+        var user_first_name = localStorage.getItem('user_first_name').toUpperCase();
+        var user_middle_name = localStorage.getItem('user_middle_name').toUpperCase();
+        var user_last_name = localStorage.getItem('user_last_name').toUpperCase();
+        var user_type = localStorage.getItem('user_type');
+        var user_department = localStorage.getItem('user_department');
+        $('#current_user').html(user_first_name + ' ' + user_middle_name + ' ' + user_last_name);
+        $('#userPosition').html(user_type);
+        $('#userDepartment').html(user_department);
+        var url = window.location.href;
+        if( url == 'http://127.0.0.1:8000/users')
+        {
+            $('#active_user_tab').addClass("active");
+        }
+    </script>
+
+    <!-- BLOCK FOR EXTRA SCRIPTS -->
+    {%block scripts%}
+    {%endblock%}
+</body>
+
+</html>

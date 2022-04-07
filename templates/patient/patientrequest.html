@@ -1,0 +1,430 @@
+<script>
+    var token = localStorage.getItem('token');
+    var user_type = localStorage.getItem('user_type');
+    if (token == null) {
+        window.location.replace('http://127.0.0.1:8000/ ')
+    }
+    if(token != null && user_type != 'Patient'){
+        window.location.replace('http://127.0.0.1:8000/main')
+    }
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {%include 'includes/header.html'%}
+    <title>Admin | Hospital Management System</title>
+
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed user-select-none">
+    <div class="wrapper">
+
+        <!-- Top Navbar -->
+        <nav class="main-header navbar navbar-expand-md navbar-white navbar-light">
+            
+            <!-- Left navbar links togglers (for responsive) -->
+            <ul class="navbar-nav navbar-no-expand">
+
+                <!-- Sidebar Toggler -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                        <i class="fas fa-bars"></i>
+                    </a>
+                </li>
+
+                <!-- Tobpar toggler -->
+                <li class="nav-item">
+                    <button class="nav-link navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                </li>
+            </ul>
+            
+            <!-- Left navbar links -->
+            <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                <ul class="navbar-nav">
+
+                    <!-- Hospital Core -->
+                    <li class="nav-item dropdown">
+                        <a 
+                            href="#" 
+                            data-toggle="dropdown" 
+                            class="nav-link dropdown-toggle"
+                        >Hospital Core</a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a href="./submodule.html" class="dropdown-item">Patient Management</a></li>
+                            <li><a href="./submodule.html" class="dropdown-item">Treatment Management</a></li>
+                            <li><a href="./submodule.html" class="dropdown-item">Pharmacy</a></li>
+                            <li><a href="./submodule.html" class="dropdown-item active">Medical Record</a></li>
+                            <li><a href="./submodule.html" class="dropdown-item">Doctors Management</a></li>
+                            <li><a href="./submodule.html" class="dropdown-item">Visitors Management</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>  
+            
+            <!-- Right navbar links -->
+            <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            
+                <!-- User Menu -->
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" data-toggle="dropdown" role="button">
+                        <i class="fas fa-user-circle"></i>
+                        <!-- <span class="badge badge-warning navbar-badge">15</span> -->
+                    </a>
+            
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a href="#" class="dropdown-item d-flex align-items-center">
+                            <div class="mr-3" style="width: 1.25rem">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#" class="dropdown-item d-flex align-items-center">
+                            <div class="mr-3" style="width: 1.25rem">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <span>Settings</span>
+                        </a>
+            
+                        <div class="dropdown-divider"></div>
+                        
+                        <a
+                            href="#"
+                            role="button" 
+                            class="dropdown-item d-flex align-items-center" 
+                            data-toggle="modal" 
+                            data-target="#logout_modal"
+                        >
+                            <div class="mr-3" style="width: 1.25rem">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </div>
+                            <span>Log out</span>
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar main-sidebar-custom sidebar-light-primary">
+
+            <!-- Brand Logo -->
+            <a href="../../index3.html" class="brand-link">
+                <img src="../../static/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                    class="brand-image img-circle border" style="opacity: .8">
+                <span class="brand-text font-weight-light">HoMIES</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+                <!-- Sidebar user -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+
+                    <!-- User Image -->
+                    <div class="image">
+                        <img src="../../static/dist/img/user2-160x160.jpg" class="img-circle border" alt="User Image">
+                    </div>
+
+                    <!-- User Full Name -->
+                    <div class="info mr-1 w-100" id="userFullNameDisplay">
+
+                        <!-- User Full Name -->
+                        <a href="#" class="nav-item text-truncate" id="userFullName"></a>
+
+                        <!-- User Position -->
+                        <div class="small text-secondary text-truncate" id="userPosition"></div>
+
+                        <!-- User Department -->
+                        <!-- <div class="small text-secondary text-truncate" id="userDepartment">Information Technology (IT) Department</div> -->
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
+
+                       <!-- Module Name -->
+                       <li class="nav-header font-weight-bold text-wrap"> DOCTORS' MANAGEMENT SYSTEM</li>
+
+                       <li class="nav-header">CORE</li>
+                       <li class="nav-item">
+                           <a href="/home" class="nav-link">
+                               <i class="nav-icon fas fa-chart-pie"></i>
+                               <p>Dashboard</p>
+                           </a>
+                       </li>
+
+                       <li class="nav-header">APPOINTMENT</li>
+                       <li class="nav-item">
+                           <a href="#" class="nav-link">
+                               <i class="nav-icon fas fa-calendar-check"></i>
+                               <p>Book Appointment</p>
+                           </a>
+                       </li>
+                       <li class="nav-item">
+                           <a href="#" class="nav-link">
+                               <i class="nav-icon fas fa-user-md"></i>
+                               <p>Find a Doctor</p>
+                           </a>
+                       </li>
+
+                       <li class="nav-header">MEDICAL RECORD</li>
+                       <li class="nav-item">
+                           <a href="/records" class="nav-link active">
+                               <i class="nav-icon fas fa-procedures"></i>
+                               <p>Patient Record</p>
+                           </a>
+                       </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Sidebar Custom -->
+            <div class="sidebar-custom">
+                <a href="#" class="btn btn-sm btn-light"><i class="fas fa-cogs"></i></a>
+                <button class="btn btn-sm btn-danger hide-on-collapse pos-right" data-toggle="modal"
+                    data-target="#logout_modal">
+                    <span>Log out</span>
+                    <i class="fas fa-sign-out-alt ml-1"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <h1>Medical Request</h1>
+                    <p class="text-muted">Requesting Medical Records</p>
+                </div>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+
+                    
+                    <!-- Card -->
+                    <div class="card card-primary card-outline">
+
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <h3 class="card-title">Record Request Form</h3>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <form id="addpatientrequestform" method="post">
+                             <!-- Purpose content -->
+                             <div id="purpose-part" class="content" role="tabpanel" aria-labelledby="purpose-part-trigger">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Information to be released</label>
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-success">
+                                                    <input type="checkbox" id="1" name="request_info[]"  class="request_info" value="Medical History">
+                                                    <label class="font-weight-normal" for="1">
+                                                        Medical History
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="checkbox" id="2" name="request_info[]"  class="request_info" value="Medical Problem">
+                                                    <label class="font-weight-normal" for="2">
+                                                        Medical Problem
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="checkbox" id="3" name="request_info[]"  class="request_info" value="Diagnostic Result">
+                                                    <label class="font-weight-normal" for="3">
+                                                        Diagnostic Result
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="checkbox" id="4" name="request_info[]"  class="request_info" value="Laboratory Result">
+                                                    <label class="font-weight-normal" for="4">
+                                                        Laboratory Result
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="checkbox" id="5" name="request_info[]"  class="request_info" value="Discharge Summary">
+                                                    <label class="font-weight-normal" for="5">
+                                                        Discharge Summary
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="checkbox" id="6" name="request_info[]"  class="request_info" value="Progress Notes">
+                                                    <label class="font-weight-normal" for="6">
+                                                        Progress Notes
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Reason for Disclosure</label>
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-success">
+                                                    <input type="radio" id="7" name="reason" value="Continued Patient Care">
+                                                    <label class="font-weight-normal" for="7">
+                                                       Continued Patient Care
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="radio" id="8" name="reason" value="Worker`s Compensation">
+                                                    <label class="font-weight-normal" for="8">
+                                                        Worker`s Compensation
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="radio" id="9" name="reason" value="Attorney/Legal">
+                                                    <label class="font-weight-normal" for="9">
+                                                        Attorney/Legal
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="radio" id="10" name="reason" value="Personal">
+                                                    <label class="font-weight-normal" for="10">
+                                                       Personal
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="radio" id="11" name="reason" value="Insurance">
+                                                    <label class="font-weight-normal" for="11">
+                                                       Insurance
+                                                    </label>
+                                                </div>
+                                                <div class="icheck-success">
+                                                    <input type="radio" id="12" name="reason" value="Social Service/Disability">
+                                                    <label class="font-weight-normal" for="12">
+                                                       Social Service/Disability
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Delivery Preference</label>
+                                            <select class="form-control select2" name="r_delivery" id="delivery" onchange="email_field(this);">
+                                                <option value="Standard Pick-up">Standard Pick-up</option>
+                                                <option value="Email">Email</option>
+                                                <option value="Patient Account">Patient Account</option>
+                                            </select>
+                                        </div>
+                                        <div class = "form-group" id="delivery_div" style="display: none;">
+                                            <label>Email:</label>
+                                            <input type = "text" class="form-control" id="request_email" placeholder="Enter your Email">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                
+                                
+                                <div class="modal-footer col-md-12">
+                                    <a class="btn btn-secondary" type="button" onclick="history.back();">Cancel</a>
+                                    <button class="btn btn-primary" type="submit">Request</button> 
+                                </div>
+                            </div>
+                        </form>
+                            
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+
+ <!-- Confirmation modal -->
+ <div class="modal fade" id="logout_modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+
+                <h4 class="modal-title"> <i class="fas fa-sign-out-alt mr-2 text-danger"></i>Log out</h4>
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to log out?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="logoutbtn" class="btn btn-danger"><span>Log out</span><i
+                        class="fas fa-sign-out-alt ml-1"></i></button>
+            </div>
+
+
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /confirmation logout -->    
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block"><b>Version</b> 3.1.0</div>
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
+        </footer>
+    </div>
+
+ <!-- for script includes -->
+ {%include 'includes/scripts.html'%}
+ <!-- Select2 -->
+<script src="{{url_for('static', path='/plugins/select2/js/select2.full.min.js')}}"></script>
+<!-- PATIENT REQUEST JS SCRIPT -->
+<script src="{{url_for('static', path='/patientAJAX/patientRequest.js')}}"></script>
+
+
+ <script>
+     $('.select2').select2()
+     $(function () {
+            $('#logoutbtn').click(function (e) {
+            window.localStorage.clear();
+            window.location.replace('http://127.0.0.1:8000/patientLogin')
+
+        });
+         
+            var user_first_name = localStorage.getItem('user_first_name').toUpperCase();
+            var user_middle_name = localStorage.getItem('user_middle_name').toUpperCase();
+            var user_last_name = localStorage.getItem('user_last_name').toUpperCase();
+            var user_type = localStorage.getItem('user_type');
+            $('#userFullName').html(user_first_name + ' ' + user_middle_name + ' ' + user_last_name);
+            $('#userPosition').html(user_type);
+            
+});
+function email_field(delivery){
+    console.log(delivery);
+    if (delivery){
+        delivery_value = $('#delivery').val()
+        if(delivery_value == 'Email'){
+            document.getElementById("delivery_div").style.display = "block";
+        }
+        else{
+            document.getElementById("delivery_div").style.display = "none";
+        }
+    }
+    else{
+        document.getElementById("delivery_div").style.display = "none";
+    }
+}
+ </script>
+</body>
+
+</html>

@@ -1,0 +1,330 @@
+<!-- Apply layout from base.html -->
+{%extends 'base/base.html'%}
+<!-- page title -->
+{%block title%}
+<title>MRS Request Medical Record | Hospital Management System</title>
+{%endblock%}
+
+<!-- side nav -->
+{%block sidenav%}
+<!-- Module Name -->
+<li class="nav-header font-weight-bold text-wrap">MEDICAL RECORD SYSTEM</li>
+            
+<li class="nav-header">CORE</li>
+<li class="nav-item">
+    <a href="/dashboard" class="nav-link">
+        <i class="nav-icon fas fa-chart-line"></i>
+        <p>Dashboard</p>
+    </a>
+</li>
+
+<li class="nav-header">MEDICAL RECORD</li>
+<li class="nav-item">
+    <a href="/patientRecord" class="nav-link">
+        <i class="nav-icon fas fa-procedures"></i>
+        <p>Patient Record</p>
+    </a>
+</li>
+<!-- <li class="nav-header">LOGS</li>
+          <li class="nav-item">
+            <a href="/patientcalllogs" class="nav-link">
+              <i class="nav-icon fas fa-phone"></i>
+              <p>Patient Call Log</p>
+            </a>
+          </li> -->
+<!-- <li class="nav-header">ADMINISTRATOR</li>
+<li class="nav-item">
+    <a href="/backup" class="nav-link">
+        <i class="nav-icon fas fa-database"></i>
+        <p>Backup Database</p>
+    </a>
+</li> -->
+{%endblock%}
+
+<!-- main content -->
+{%block content%}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+
+            <!-- Title -->
+            <div class="col-sm-6">
+                <h1>Medical Record</h1>
+            </div>
+
+            <!-- Breadcrumb -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Medical Record</li>
+                </ol>
+            </div>
+            <!-- / breadcrumb -->
+
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+
+<section class="content">
+    <div class="container-fluid">
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Patient Medical Record Form</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form id="medical_form">
+        <div class="card-body">
+            <h3>Medical History</h3>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>General Physician</label>
+                        <input type="text" class="form-control" id="mr_general_physician" placeholder="Enter physician name">
+                    </div>
+                    <div class="form-group">
+                        <label for="DOB">Chief of Complaint</label>
+                        <input type="date" class="form-control" id="mr_chief_complaint" placeholder="Enter chief complaint">
+                    </div>
+                    <div class="form-group">
+                        <label for="patient_record_id">Past Illness</label>
+                        <input type="text" class="form-control" id="mr_medical_history" placeholder="Enter Patient Record ID">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone">Allergy</label>
+                        <input type="text" class="form-control" id="mr_allergy" placeholder="Enter Allergy">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Medication</label>
+                        <input type="email" class="form-control" id="mr_medication" placeholder="Enter Email Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Family History</label>
+                        <input type="email" class="form-control" id="mr_family_history" placeholder="Enter Email Address">
+                    </div>
+                </div>
+            </div><br>
+    
+            <h3>Medical Problem</h3>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="house_number">Problem Name</label>
+                        <input type="text" class="form-control" id="mr_problem_name" placeholder="Enter problem name">
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Problem Note</label>
+                        <textarea rows="3" type="text" class="form-control" id="mr_problem_note" placeholder="Enter problem note"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="municipality">Date Occured</label>
+                        <input type="date" class="form-control" id="mr_date_occured" >
+                    </div>
+                    <div class="form-group">
+                        <label for="strprovinceeet">Date Resolved</label>
+                        <input type="date" class="form-control" id="mr_date_resolved">
+                    </div>
+                </div>
+            </div><br>
+
+            <h3>Diagnostic Result</h3>
+            <hr>
+            <div class="form-group">
+                <label>Physician</label>
+                <select class="form-control">
+                    <option>OPT</option>
+                    <option>OPT</option>
+                    <option>OPT</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="house_number">Diagnosis Name</label>
+                <input type="text" class="form-control" id="mr_diagnosis_name" placeholder="Enter diagnosis name">
+            </div>
+            <div class="form-group">
+                <label for="street">Diagnosis Note</label>
+                <textarea id="mr_diagnosis_note" class="form-control" rows="3" placeholder="Enter diagnosis note"></textarea>
+
+            </div>
+            <br>
+            <h3>Laboratory Result</h3>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="requested_by">Specimen</label>
+                        <input type="text" class="form-control" id="mr_specimen" placeholder="Enter specimen">
+                    </div>
+                    <div class="form-group">
+                        <label for="DOB">Result</label>
+                        <input type="date" class="form-control" id="mr_result" placeholder="Enter result">
+                    </div>
+                    <div class="form-group">
+                        <label for="patient_record_id">Reference</label>
+                        <input type="text" class="form-control" id="mr_reference" placeholder="Enter reference">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone">Status</label>
+                        <select class="form-control">
+                            <option>Processing</option>
+                            <option>Claimed</option>
+                            <option>Unclaimed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Unit</label>
+                        <input type="email" class="form-control" id="" placeholder="Enter Email Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Detailed Result</label>
+                        <input type="email" class="form-control" id="h" placeholder="Enter Email Address">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h3>Progress Note Entry</h3>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="requested_by">Physician</label>
+                        <select class="form-control">
+                            <option>Doctor</option>
+                            <option>Doctor</option>
+                            <option>Doctor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="DOB">Reason for Consultation</label>
+                        <textarea rows="3" type="text" class="form-control" id="" placeholder="Enter chief complaint"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="patient_record_id">Physical Examination</label>
+                        <textarea rows="3" type="text" class="form-control" id="" placeholder="Enter Patient Record ID"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone">Date of Next Appointment</label>
+                        <input type="date" class="form-control" id="" placeholder="Enter Email Address">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Impression</label>
+                        <textarea rows="3" type="text" class="form-control" id="" placeholder="Enter Email Address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Recommendation</label>
+                        <textarea rows="3" type="text" class="form-control" id="h" placeholder="Enter Email Address"></textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h3>Prescription (Drug)</h3>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="requested_by">Medication Name</label>
+                        <input type="text" class="form-control" id="" placeholder="Enter Medication Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="requested_by">Dosage</label>
+                        <input type="text" class="form-control" id="" placeholder="Enter Dosage">
+                    </div>
+                    <div class="form-group">
+                        <label for="requested_by">Quantity</label>
+                        <input type="text" class="form-control" id="" placeholder="Enter Quantity">
+                    </div>
+                    <div class="form-group">
+                        <label for="requested_by">Frequency</label>
+                        <input type="text" class="form-control" id="" placeholder="Enter Frequency">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone">Intake</label>
+                        <select name="medicationTakenfor" id="med_taken_for" class="form-control">
+                            <option label="Per Oris" value="Per Oris">Per Oris</option>
+                            <option label="Per Rectum" value="Per Rectum">Per Rectum</option>
+                            <option label="To Skin" value="To Skin">To Skin</option>
+                            <option label="To Affected Area" value="To Affected Area">To Affected Area</option>
+                            <option label="Sublingual" value="Sublingual">Sublingual</option>
+                            <option label="IV" value="IV">IV</option>
+                            <option label="Per Nostril" value="Per Nostril">Per Nostril</option>
+                            <option label="Both Ears" value="Both Ears">Both Ears</option>
+                            <option label="Left Ear" value="Left Ear">Left Ear</option>
+                            <option label="Right Ear" value="Right Ear">Right Ear</option>
+                            <option label="Inhale" value="Inhale">Inhale</option>
+                            <option label="Intradermal" value="Intradermal">Intradermal</option>
+                            <option label="Intramuscular" value="Intramuscular">Intramuscular</option>
+                            <option label="Other/Miscellaneous" value="Other/Miscellaneous">Other/Miscellaneous</option>
+                            <option label="Transdermal" value="Transdermal">Transdermal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Prescribed By</label>
+                        <select class="form-control">
+                            <option>Doctor</option>
+                            <option>Doctor</option>
+                            <option>Doctor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Notes</label>
+                        <textarea rows="3" type="text" class="form-control" id="h" placeholder="Enter Prescription Notes"></textarea>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <h3>Prescription (Supply)</h3>
+            <hr>
+                
+                    <div class="form-group">
+                        <label for="requested_by">Name of Medication Supply</label>
+                        <input type="text" class="form-control" id="" placeholder="Enter Medication Supply">
+                    </div>
+                    <div class="form-group">
+                        <label for="requested_by">Quantity</label>
+                        <input type="text" class="form-control" id="" placeholder="Enter Quantity">
+                    </div>
+                    <div class="form-group">
+                        <label for="requested_by">Prescribed by</label>
+                        <select class="form-control">
+                            <option>Doctor</option>
+                            <option>Doctor</option>
+                            <option>Doctor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="requested_by">Notes</label>
+                        <textarea rows="3" type="text" class="form-control" id="h" placeholder="Enter Prescription Notes"></textarea>
+                    </div>
+             
+            </div>
+            <div class="card-footer col-md-12 ">
+                <button type="submit" class="btn btn-primary float-right">Submit</button>
+            </div>
+        </form>
+</div>
+</div>
+<!-- /.card-body -->
+<div class=card-body>
+</div>
+<!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+</div>
+</section>
+<!-- /.content -->
+{%endblock%}

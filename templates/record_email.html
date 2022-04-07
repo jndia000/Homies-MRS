@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MRS | Medical Records</title>
+
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{url_for('static', path='plugins/fontawesome-free/css/all.min.css')}}">
+  <!-- <link rel="stylesheet" href="static/plugins/fontawesome-free/css/all.min.css"> -->
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{url_for('static', path='/dist/css/adminlte.min.css')}}">
+    <!-- <link rel="stylesheet" href="static/dist/css/adminlte.min.css"> -->
+</head>
+<body>
+<div class="wrapper">
+  <!-- Main content -->
+  <section class="invoice">
+    <!-- title row -->
+    <div class="row">
+      <div class="col-12">
+        <h2 class="page-header">
+          <i class="fas fa-globe"></i> HoMIES MRS
+          <small class="float-right">Release Date: {{ date }}</small>
+        </h2>
+
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- info row -->
+    <div class="row invoice-info">
+      <div class="col-sm-6 invoice-col">
+        <br>
+        <address>
+          <strong>Patient Name:</strong> {{record.patientrecordFK.first_name+' '+record.patientrecordFK.middle_name+' '+record.patientrecordFK.last_name}}<br>
+          <strong>Gender:</strong> {{record.patientrecordFK.gender}}<br>
+          <strong>Date of Birth:</strong> {{record.patientrecordFK.birthday}}<br>
+          <strong>Phone:</strong> {{record.patientrecordFK.contact_number}}<br>
+          <strong>Address</strong> {{record.patientrecordFK.street+', '+record.patientrecordFK.barangay+', '+record.patientrecordFK.municipality+', '+record.patientrecordFK.province+' '+record.patientrecordFK.region}}<br>
+        </address>
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-2 invoice-col">
+        <!-- To
+        <address>
+          <strong>John Doe</strong><br>
+          795 Folsom Ave, Suite 600<br>
+          San Francisco, CA 94107<br>
+          Phone: (555) 539-1037<br>
+          Email: john.doe@example.com
+        </address> -->
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-4 invoice-col">
+        <!-- <b>Invoice #007612</b><br>
+        <br>
+        <b>Order ID:</b> 4F3S8J<br>
+        <b>Payment Due:</b> 2/22/2014<br>
+        <b>Account:</b> 968-34567 -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+<!-- MEDICAL HISTORY -->
+{%if info.request_information.find('Medical History') != -1:%}
+    <!-- Table row -->
+    <h3>Medical History</h3>
+    <hr>
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-borderless">
+            <tbody>
+    
+            <tr>
+                <td><strong>Chief Complaint</strong> {{history.chief_complaint}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Previous Hospital:</strong> {{history.previous_hospital}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Previous Doctor:</strong> {{history.previous_doctor}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Previous Diagnosis:</strong> {{history.previous_diagnosis}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Previous Treatment:</strong> {{history.previous_treatment}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Previous Surgeries:</strong> {{history.previous_surgeries}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Previous Medications:</strong> {{history.previous_medication}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Health Conditions:</strong> {{history.health_conditions}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Special Privileges:</strong> {{history.special_privileges}}</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><strong>Family History:</strong> {{history.family_history}}</td>
+                <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+{%endif%}
+    <br>
+{%if info.request_information.find('Medical Problem') != -1:%}
+<!-- MEDICAL PROBLEM -->
+    <!-- Table row -->
+    <h3>Medical Problem</h3>
+    <hr>
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Problem Name</th>
+            <th>Problem Note</th>
+            <th>Status</th>
+            <th>Date Occured</th>
+            <th>Date Resolved</th>
+          </tr>
+          </thead>
+          <tbody>
+            {%if record.problemrecordFK is defined and record.problemrecordFK|length > 0 %}
+                {%for problem in record.problemrecordFK%}
+              <tr>
+                <td>{{problem.problem_name}}</td>
+                <td>{{problem.problem_note}}</td>
+                <td>{{problem.active_status}}</td>
+                <td>{{problem.date_occured}}</td>
+                <td>{{problem.date_resolved}}</td>
+              </tr>
+                {%endfor%}
+            {%else%}
+              <tr>
+                <td colspan="5" class="text-center text-secondary"><i>No information available</i></td>
+              </tr>
+            {%endif%}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+{%endif%}    
+    <br>
+{%if info.request_information.find('Diagnostic Result') != -1:%}
+<!-- Diagnostic Result -->
+    <!-- Table row -->
+    <h3>Diagnosis Result</h3>
+    <hr>
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Diagnosis</th>
+            <th>Diagnosis Description</th>
+            <th>Physician</th>
+          </tr>
+          </thead>
+          <tbody>
+            {%if diagnosis is defined and diagnosis|length > 0 %}
+            {%for diagnosis in diagnosis%}
+          <tr>
+            <td>{{diagnosis.diagnosis}}</td>
+            <td>{{diagnosis.description}}</td>
+            <td>{{'Dr. '+diagnosis.docdiagnosisFK.first_name+' '+diagnosis.docdiagnosisFK.last_name}}</td>
+          </tr>
+            {%endfor%}
+        {%else%}
+          <tr>
+            <td colspan="3" class="text-center text-secondary"><i>No information available</i></td>
+          </tr>
+        {%endif%}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+{%endif%}    
+    <br>
+{%if info.request_information.find('Laboratory Result') != -1:%}    
+<!-- Laboratory Result -->
+    <!-- Table row -->
+    <h3>Laboratory Result</h3>
+    <hr>
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Result</th>
+            <th>Detailed Result</th>
+            <th>Specimen</th>
+            <th>Unit</th>
+            <th>Reference</th>
+          </tr>
+          </thead>
+          <tbody>
+            {%if record.labresultrecordFK is defined and record.labresultrecordFK|length > 0 %}
+            {%for lab in record.labresultrecordFK%}
+          <tr>
+            <td>{{lab.result}}</td>
+            <td>{{lab.detailed_result}}</td>
+            <td>{{lab.specimen}}</td>
+            <td>{{lab.unit}}</td>
+            <td>{{lab.reference}}</td>
+          </tr>
+            {%endfor%}
+        {%else%}
+          <tr>
+            <td colspan="5" class="text-center text-secondary"><i>No information available</i></td>
+          </tr>
+        {%endif%}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+{%endif%}    
+    <br>
+{%if info.request_information.find('Progress Notes') != -1:%}    
+<!-- PROGRESS NOTES -->
+    <!-- Table row -->
+    <h3>Progress Notes</h3>
+    <hr>
+    <div class="row">
+      <div class="col-12 table-responsive">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Reason for Consultation</th>
+            <th>Physical Examination</th>
+            <th>Impression</th>
+            <th>Recommendation</th>
+          </tr>
+          </thead>
+          <tbody>
+            {%if record.progressnoterecordFK is defined and record.progressnoterecordFK|length > 0 %}
+            {%for note in record.progressnoterecordFK%}
+          <tr>
+            <td>{{note.reason_for_consultation}}</td>
+            <td>{{note.physical_examination}}</td>
+            <td>{{note.impression}}</td>
+            <td>{{note.recommendation}}</td>
+          </tr>
+            {%endfor%}
+        {%else%}
+          <tr>
+            <td colspan="4" class="text-center text-secondary"><i>No information available</i></td>
+          </tr>
+        {%endif%}
+          </tbody>
+        </table>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+{%endif%}    
+
+    <br>
+    
+    <div class="row">
+      <!-- accepted payments column -->
+      <div class="col-6">
+        <p class="lead">HoMIES</p>
+        <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+          DISCLAIMER: <br>
+          This document is a strictly confidential communication to and solely for the use of the recipient
+          and may not be reproduces or circulated without <strong>HoMIES's</strong> prior written consent.
+          If you are not the intended recipient, you may not disclose or use the information in this documentation in any way.
+        </p>
+      </div>
+      <!-- /.col -->
+      <div class="col-6">
+        <!-- <p class="lead">Amount Due 2/22/2014</p>
+
+        <div class="table-responsive">
+          <table class="table">
+            <tr>
+              <th style="width:50%">Subtotal:</th>
+              <td>$250.30</td>
+            </tr>
+            <tr>
+              <th>Tax (9.3%)</th>
+              <td>$10.34</td>
+            </tr>
+            <tr>
+              <th>Shipping:</th>
+              <td>$5.80</td>
+            </tr>
+            <tr>
+              <th>Total:</th>
+              <td>$265.24</td>
+            </tr>
+          </table>
+        </div> -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- ./wrapper -->
+<!-- Page specific script -->
+<script>
+//   window.addEventListener("load", window.print());
+</script>
+</body>
+</html>
