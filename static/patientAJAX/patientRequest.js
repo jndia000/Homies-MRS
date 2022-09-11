@@ -437,7 +437,7 @@ $(document).ready(function () {
           var active_status =  'Cancelled';
           var data = {review_reason, active_status}
           $.ajax({
-              url: `http://localhost:8000/recordRequest/statusRequest/${request_id}`,
+              url: `http://localhost:8003/recordRequest/statusRequest/${request_id}`,
               type: 'PUT',
               mode: 'cors',
               headers: {'Content-Type': 'Application/json'},

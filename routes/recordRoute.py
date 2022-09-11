@@ -446,7 +446,7 @@ async def add_attachment(patient_record_id:str,file: UploadFile = File(...),db: 
     img.save(generated_name)
 
     file.close
-    file_url = "localhost:8000"+ generated_name[1:]
+    file_url = "localhost:8003"+ generated_name[1:]
 
     attachment = recordModel.Attachment(attachment = token_name, patient_record_id = patient_record_id)
     db.add(attachment)

@@ -46,7 +46,7 @@ async def create_upload_file(file: UploadFile = File(...),db: Session = Depends(
     img.save(generated_name)
 
     file.close
-    file_url = "localhost:8000"+ generated_name[1:]
+    file_url = "localhost:8003"+ generated_name[1:]
 
     new_row = requestModel.Test(image = token_name)
     db.add(new_row)
@@ -85,7 +85,7 @@ async def add_patient_valid_id(file: UploadFile = File(...),db: Session = Depend
     img.save(generated_name)
 
     file.close
-    file_url = "localhost:8000"+ generated_name[1:]
+    file_url = "localhost:8003"+ generated_name[1:]
 
     patient_valid_id = requestModel.Request(patient_valid_id = token_name)
     db.add(patient_valid_id)
@@ -183,7 +183,7 @@ async def add_requester_valid_id(request_id: str,file: UploadFile = File(...),db
     img.save(generated_name)
 
     file.close
-    file_url = "localhost:8000"+ generated_name[1:]
+    file_url = "localhost:8003"+ generated_name[1:]
 
 
     if not db.query(requestModel.Request).filter(requestModel.Request.request_id == request_id).update({
@@ -217,7 +217,7 @@ async def add_requester_letter(request_id: str,file: UploadFile = File(...),db: 
         img.save(generated_name)
 
     file.close
-    file_url = "localhost:8000"+ generated_name[1:]
+    file_url = "localhost:8003"+ generated_name[1:]
 
 
     if not db.query(requestModel.Request).filter(requestModel.Request.request_id == request_id).update({
